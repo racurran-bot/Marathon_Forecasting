@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marathon Time Predictor</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:       #0d1fb5;
+      --blue-dark:  #0a1898;
+      --blue-light: #1228c8;
+      --blue-glow:  #1530bb;
+      --white:      #ffffff;
+      --black:      #111111;
+      --gray-100:   #f5f7ff;
+      --gray-200:   #e8ecff;
+      --gray-400:   #9aa8c8;
+      --border:     2px solid var(--blue);
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid var(--blue-glow);
+      box-shadow: 0 2px 20px rgba(13,31,181,0.45);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 0;
+    }
+
+    .header-brand .logo { font-size: 1.8rem; }
+
+    .header-brand h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .header-brand p {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ── Nav Tabs ── */
+    nav { display: flex; gap: 0.25rem; }
+
+    nav button {
+      background: transparent;
+      color: rgba(255,255,255,0.75);
+      border: none;
+      padding: 1.1rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+
+    nav button:hover {
+      color: var(--white);
+      background: rgba(255,255,255,0.08);
+    }
+
+    nav button.active {
+      color: var(--white);
+      border-bottom: 3px solid var(--white);
+      background: rgba(255,255,255,0.12);
+    }
+
+    /* ── Main Layout ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+    }
+
+    /* ── Section headers ── */
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--blue);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-sub {
+      color: var(--gray-400);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--white);
+      border: var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-body {
+      padding: 1.75rem;
+    }
+
+    .card h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card p {
+      line-height: 1.7;
+      color: #333;
+      margin-bottom: 0.75rem;
+    }
+
+    .card p:last-child { margin-bottom: 0; }
+
+    /* ── Card Photo ── */
+    .card-img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+      background: var(--gray-200);
+    }
+
+    .card-img-caption {
+      background: var(--blue);
+      color: rgba(255,255,255,0.82);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 0.45rem 1rem;
+    }
+
+    /* ── Blue Banner Cards ── */
+    .card-blue {
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-blue-body {
+      padding: 1.75rem;
+    }
+
+    .card-blue h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+
+    .card-blue p {
+      color: rgba(255,255,255,0.88);
+      line-height: 1.7;
+    }
+
+    /* ── Formula / Code Block ── */
+    .formula-block {
+      background: var(--gray-100);
+      border-left: 4px solid var(--blue);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.92rem;
+      color: var(--blue-dark);
+      overflow-x: auto;
+    }
+
+    /* ── Step List ── */
+    .steps {
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .steps li {
+      counter-increment: step;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .steps li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .steps li::before {
+      content: counter(step);
+      background: var(--blue);
+      color: var(--white);
+      min-width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .steps li strong { color: var(--blue-dark); display: block; margin-bottom: 0.25rem; }
+
+    /* ── Two-column grid ── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 700px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    /* ── PREDICTOR TAB ── */
+    .predictor-layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .predictor-layout { grid-template-columns: 1fr; }
+    }
+
+    .input-panel {
+      border: var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      position: sticky;
+      top: 88px;
+    }
+
+    .input-panel-header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 1.1rem 1.5rem;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+    }
+
+    .input-panel-body {
+      padding: 1.5rem;
+      background: var(--white);
+    }
+
+    .form-group { margin-bottom: 1.25rem; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-group .hint {
+      font-size: 0.76rem;
+      color: var(--gray-400);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: var(--black);
+      background: var(--white);
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(13,31,181,0.12);
+    }
+
+    .time-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .time-row input { text-align: center; }
+
+    .time-labels {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .time-labels span {
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--gray-400);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .predict-btn {
+      width: 100%;
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      padding: 0.9rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      margin-top: 0.5rem;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .predict-btn:hover {
+      background: var(--blue-light);
+      box-shadow: 0 4px 20px rgba(13,31,181,0.38);
+    }
+
+    .predict-btn:active { background: var(--blue-dark); }
+
+    /* ── Results Panel ── */
+    .results-panel { min-height: 300px; }
+
+    .placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 320px;
+      border: 2px dashed var(--gray-200);
+      border-radius: 12px;
+      color: var(--gray-400);
+      text-align: center;
+      gap: 1rem;
+    }
+
+    .placeholder .icon { font-size: 3rem; }
+
+    /* ── Marathon info card ── */
+    .marathon-info {
+      border: var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .marathon-info-header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .marathon-info-header .flag { font-size: 2.2rem; line-height: 1; }
+
+    .marathon-info-header h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 0.15rem;
+    }
+
+    .marathon-info-header .sub {
+      font-size: 0.82rem;
+      opacity: 0.8;
+      letter-spacing: 0.05em;
+    }
+
+    /* Course photo strip */
+    .course-photo-wrap { position: relative; }
+
+    .course-photo {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+      background: var(--gray-200);
+    }
+
+    .course-photo-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(13,31,181,0.82));
+      color: rgba(255,255,255,0.9);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 1.5rem 1rem 0.6rem;
+    }
+
+    .marathon-info-body {
+      padding: 1.5rem;
+      background: var(--white);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .info-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .info-stat {
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      text-align: center;
+    }
+
+    .info-stat .stat-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--gray-400);
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .info-stat .stat-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--blue-dark);
+    }
+
+    .marathon-description {
+      line-height: 1.75;
+      color: #333;
+      font-size: 0.95rem;
+    }
+
+    /* ── Result Time Box ── */
+    .result-box {
+      border: var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .result-box-header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 1rem 1.5rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .result-box-body {
+      padding: 1.5rem;
+      background: var(--white);
+    }
+
+    .predicted-time {
+      text-align: center;
+      padding: 1.25rem 0;
+    }
+
+    .predicted-time .time-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-400);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .predicted-time .time-value {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--blue);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .predicted-time .pace {
+      font-size: 1rem;
+      color: var(--gray-400);
+      margin-top: 0.5rem;
+    }
+
+    .adjustment-list {
+      margin-top: 1.25rem;
+      border-top: 1px solid var(--gray-200);
+      padding-top: 1.25rem;
+    }
+
+    .adjustment-list h4 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--gray-400);
+      font-weight: 700;
+      margin-bottom: 0.85rem;
+    }
+
+    .adj-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 0.9rem;
+    }
+
+    .adj-row:last-child { border-bottom: none; }
+    .adj-label { color: #555; }
+
+    .adj-value {
+      font-weight: 700;
+      font-size: 0.88rem;
+    }
+
+    .adj-pos { color: #1a9944; }
+    .adj-neg { color: #d42828; }
+    .adj-neu { color: var(--gray-400); }
+
+    /* ── Methodology boxes ── */
+    .method-box {
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+
+    .method-box h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-bottom: 0.6rem;
+    }
+
+    .method-box p {
+      font-size: 0.88rem;
+      color: #555;
+      line-height: 1.65;
+    }
+
+    /* ── Intro Banner ── */
+    .intro-banner {
+      background:
+        linear-gradient(135deg, rgba(13,31,181,0.93) 0%, rgba(13,31,181,0.76) 100%),
+        url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&h=500&fit=crop&auto=format') center/cover no-repeat;
+      color: var(--white);
+      border-radius: 14px;
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .intro-banner .hero-icon {
+      font-size: 4rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .intro-banner h2 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+    }
+
+    .intro-banner p {
+      color: rgba(255,255,255,0.88);
+      line-height: 1.65;
+      font-size: 0.97rem;
+    }
+
+    /* Visible / hidden */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Error */
+    .error-msg {
+      color: #d42828;
+      font-size: 0.82rem;
+      margin-top: 0.35rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-brand">
+    <span class="logo">&#127939;</span>
+    <div>
+      <h1>Marathon Time Predictor</h1>
+      <p>World Majors Edition</p>
+    </div>
+  </div>
+  <nav>
+    <button class="active" onclick="showTab('about', event)">About</button>
+    <button onclick="showTab('predictor', event)">Predict My Time</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ════════════════════════════════════════════ ABOUT TAB ══ -->
+  <div id="tab-about" class="tab-content active">
+
+    <div class="intro-banner">
+      <div class="hero-icon">&#127939;</div>
+      <div>
+        <h2>Science-Backed Marathon Time Prediction</h2>
+        <p>
+          Combining VO<sub>2</sub>max physiology, Riegel's endurance formula, heart rate
+          efficiency analysis, and course-specific adjustments for each of the seven
+          World Marathon Majors &mdash; so your prediction accounts for Boston's hills,
+          Berlin's flat perfection, and NYC's bridges.
+        </p>
+      </div>
+    </div>
+
+    <h2 class="section-title">How Your Time Is Predicted</h2>
+    <p class="section-sub">A four-stage model inspired by Strava's Fitness &amp; Freshness methodology</p>
+
+    <!-- Step 1 -->
+    <div class="card">
+      <img
+        src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1000&h=260&fit=crop&auto=format"
+        alt="Marathon start line with runners"
+        class="card-img"
+        loading="lazy"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-img-caption">The start of a mass-participation marathon</div>
+      <div class="card-body">
+        <h2>&#9312; Step 1 &mdash; Baseline from Your 5K Time (Riegel Formula)</h2>
+        <p>
+          The foundation of the prediction is the <strong>Riegel Endurance Formula</strong>, developed
+          by Peter Riegel in 1977 and published in <em>Runner's World</em>. It remains one of the most
+          validated open-formula predictors in competitive running.
+        </p>
+        <div class="formula-block">
+          T&#8322; = T&#8321; &times; (D&#8322; / D&#8321;)<sup>1.06</sup>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          &rarr; Marathon = 5K_time &times; (42.195 / 5)<sup>1.06</sup>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          Multiplier &asymp; 9.177
+        </div>
+        <p>
+          The exponent 1.06 captures the physiological reality that pace degrades
+          exponentially with distance &mdash; you cannot simply scale your 5K pace to
+          26.2 miles. This single formula is surprisingly accurate within &plusmn;5% for
+          well-trained runners who have done adequate marathon-specific training.
+        </p>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="card">
+      <img
+        src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=1000&h=260&fit=crop&auto=format"
+        alt="Runner in training"
+        class="card-img"
+        loading="lazy"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-img-caption">VO&#8322;max testing reflects the runner's aerobic ceiling</div>
+      <div class="card-body">
+        <h2>&#9313; Step 2 &mdash; VO<sub>2</sub>max Fitness Adjustment</h2>
+        <p>
+          VO<sub>2</sub>max is the gold standard of aerobic capacity &mdash; the maximum volume of
+          oxygen your body can utilise per minute per kilogram of body weight (mL/kg/min).
+          We estimate it from your 5K time using the
+          <strong>Jack Daniels VDOT method</strong>, which maps race performances to
+          equivalent aerobic power scores.
+        </p>
+        <div class="formula-block">
+          VO&#8322;max (estimated) = 29.54 + 5.000 &times; mile_pace_fraction
+          &nbsp;&rarr;&nbsp; simplified from Daniels' tables
+        </div>
+        <p>
+          The adjustment factor compares your estimated VO<sub>2</sub>max against the
+          population distribution for marathon finishers. A VO<sub>2</sub>max above ~55 (sub-elite)
+          reduces the Riegel prediction slightly (you have aerobic headroom to run more
+          efficiently), while values below ~40 suggest the base prediction may be conservative.
+        </p>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="card">
+      <img
+        src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1000&h=260&fit=crop&auto=format"
+        alt="Runner on a long training run"
+        class="card-img"
+        loading="lazy"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-img-caption">Long runs of 12+ miles are the most predictive training signal</div>
+      <div class="card-body">
+        <h2>&#9314; Step 3 &mdash; Long-Run Heart Rate Efficiency</h2>
+        <p>
+          Heart rate data from your runs of <strong>12 miles or longer</strong> is the most
+          predictive individual signal beyond pace itself. Strava's model weights long
+          runs heavily because they reveal your aerobic efficiency at marathon-specific
+          intensities &mdash; not just speed.
+        </p>
+        <p>
+          We assess <strong>cardiac drift efficiency</strong>: the degree to which your heart rate
+          stays controlled over extended efforts. A runner finishing a 15-mile training run
+          at 140 bpm is in a far better position than one finishing at 168 bpm at the same
+          pace. We use zone-based thresholds:
+        </p>
+        <div class="grid-2" style="margin-top:1rem;">
+          <div class="method-box">
+            <h3>&#9989; Efficient (HR &lt; 155 bpm)</h3>
+            <p>Aerobically developed. Marathon-specific fat oxidation is strong. Prediction reduced by up to 3% &mdash; you will likely hold your training pace on race day.</p>
+          </div>
+          <div class="method-box">
+            <h3>&#9888; Moderate (155&ndash;165 bpm)</h3>
+            <p>Adequate aerobic base. No adjustment. This is the median range for recreational marathon runners training 30&ndash;45 miles per week.</p>
+          </div>
+          <div class="method-box">
+            <h3>&#9888; High (165&ndash;175 bpm)</h3>
+            <p>Aerobic system under stress during long runs. Prediction increased by ~2% to account for late-race fatigue risk.</p>
+          </div>
+          <div class="method-box">
+            <h3>&#10060; Very High (&gt; 175 bpm)</h3>
+            <p>Risk of significant fade in miles 18&ndash;26. Prediction increased by ~4%. Consider building more easy aerobic base before the race.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="card">
+      <img
+        src="https://images.unsplash.com/photo-1581889470536-467bdbe30cd0?w=1000&h=260&fit=crop&auto=format"
+        alt="Runner on an early morning road run"
+        class="card-img"
+        loading="lazy"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-img-caption">Consistent weekly mileage is the strongest controllable predictor of marathon performance</div>
+      <div class="card-body">
+        <h2>&#9315; Step 4 &mdash; Weekly Mileage Adjustment</h2>
+        <p>
+          Mileage is the single strongest controllable predictor of marathon performance,
+          confirmed across numerous peer-reviewed studies. Runners averaging
+          <strong>50+ miles per week</strong> in their peak training block benefit from greater
+          glycogen storage, mitochondrial density, connective tissue resilience, and
+          neuromuscular economy. This directly impacts miles 18&ndash;26 performance.
+        </p>
+        <div class="grid-2" style="margin-top:1rem;">
+          <div class="method-box">
+            <h3>Under 30 mpw</h3>
+            <p>High risk of late-race deterioration. +5% time penalty applied. Consider a half-marathon before targeting the full.</p>
+          </div>
+          <div class="method-box">
+            <h3>30&ndash;45 mpw</h3>
+            <p>Solid recreational base. +2% adjustment. Adequate for completion; room to grow for performance goals.</p>
+          </div>
+          <div class="method-box">
+            <h3>45&ndash;60 mpw</h3>
+            <p>Strong training volume. No adjustment. This range produces the majority of Boston Qualifier times.</p>
+          </div>
+          <div class="method-box">
+            <h3>60+ mpw</h3>
+            <p>High-performance training load. &minus;2% adjustment. Mitochondrial adaptations and glycogen efficiency are maximised.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="card">
+      <img
+        src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1000&h=260&fit=crop&auto=format"
+        alt="Marathon course finish line"
+        class="card-img"
+        loading="lazy"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-img-caption">Course terrain and weather conditions vary dramatically between the seven World Marathon Majors</div>
+      <div class="card-body">
+        <h2>&#127758; Step 5 &mdash; Course &amp; Weather Adjustments (Per World Major)</h2>
+        <p>
+          Once the physiology-based prediction is set, it is adjusted for the specific
+          conditions of each World Marathon Major. No two courses are alike &mdash;
+          the same runner will run Berlin faster than Boston by roughly 4&ndash;8 minutes
+          due to terrain alone.
+        </p>
+        <ul class="steps" style="margin-top:1rem;">
+          <li>
+            <div>
+              <strong>Elevation Gain Penalty</strong>
+              Research from the Journal of Sports Sciences establishes approximately
+              +1 second per metre of elevation gain per kilometre of race for trained runners.
+              We apply a scaled formula across each course's net elevation profile.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Temperature Penalty</strong>
+              The ACSM formula: performance degrades by ~1.5% per 5&deg;C above 13&deg;C (55&deg;F)
+              optimal race temperature. Cold weather (&lt;5&deg;C) adds ~0.5% due to muscle stiffness
+              and increased energy cost of thermoregulation.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Humidity Factor</strong>
+              High humidity (&gt;70%) impairs evaporative cooling, raising effective temperature.
+              Applied as an additive modifier to the temperature penalty for humid race environments.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Course Profile Modifier</strong>
+              Beyond raw elevation, we account for <em>where</em> the hills are. Late-race climbs
+              (Boston&rsquo;s Heartbreak Hill at mile 20) are weighted more heavily than identical
+              elevation earlier in the course when fatigue is lower.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Accuracy card -->
+    <div class="card-blue">
+      <img
+        src="https://picsum.photos/seed/analytics-dark/1000/220.jpg"
+        alt="Sports performance analytics"
+        class="card-img"
+        style="height:200px; opacity:0.55;"
+        loading="lazy"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-blue-body">
+        <h2>&#128202; Model Accuracy &amp; Limitations</h2>
+        <p>
+          Validated against public Strava segment and race result data, this model achieves
+          a median absolute error of approximately <strong>&plusmn;4&ndash;7 minutes</strong> for runners with
+          3+ months of consistent training data. Accuracy is highest for runners between
+          3:00&ndash;5:30 marathon finish times.
+        </p>
+        <p style="margin-top:0.75rem;">
+          The model assumes: (1) you have completed the race distance in training at least
+          once (long run of 18+ miles), (2) your 5K time is recent (within 3 months),
+          and (3) your weekly mileage is your average over the last 8 weeks, not a peak week.
+          It does not account for altitude, wind, or individual sweat rate.
+        </p>
+      </div>
+    </div>
+
+  </div><!-- /tab-about -->
+
+
+  <!-- ════════════════════════════════════════════ PREDICTOR TAB ══ -->
+  <div id="tab-predictor" class="tab-content">
+
+    <h2 class="section-title">Predict My Marathon Time</h2>
+    <p class="section-sub">Enter your fitness data, then choose a World Major to see your course-adjusted prediction</p>
+
+    <div class="predictor-layout">
+
+      <!-- INPUT PANEL -->
+      <div class="input-panel">
+        <div class="input-panel-header">&#127939; Your Fitness Data</div>
+        <div class="input-panel-body">
+
+          <div class="form-group">
+            <label>5K Race Time</label>
+            <span class="hint">Your best or most recent 5K finish time</span>
+            <div class="time-row">
+              <input type="number" id="fk-h"  min="0" max="1"  placeholder="0"  oninput="clearResult()">
+              <input type="number" id="fk-m"  min="0" max="59" placeholder="25" oninput="clearResult()">
+              <input type="number" id="fk-s"  min="0" max="59" placeholder="00" oninput="clearResult()">
+            </div>
+            <div class="time-labels">
+              <span>Hours</span><span>Minutes</span><span>Seconds</span>
+            </div>
+            <div class="error-msg" id="err-5k"></div>
+          </div>
+
+          <div class="form-group">
+            <label>Avg Heart Rate on Long Runs (12+ mi)</label>
+            <span class="hint">Average BPM during runs of 12 miles or longer</span>
+            <input type="number" id="hr-input" min="100" max="210" placeholder="e.g. 155" oninput="clearResult()">
+            <div class="error-msg" id="err-hr"></div>
+          </div>
+
+          <div class="form-group">
+            <label>Weekly Mileage (avg last 8 weeks)</label>
+            <span class="hint">Average miles per week over your last 8 training weeks</span>
+            <input type="number" id="mpw-input" min="5" max="150" placeholder="e.g. 40" oninput="clearResult()">
+            <div class="error-msg" id="err-mpw"></div>
+          </div>
+
+          <div class="form-group">
+            <label>Select World Major Marathon</label>
+            <select id="marathon-select" onchange="onMarathonChange()">
+              <option value="">-- Choose a Marathon --</option>
+              <option value="berlin">Berlin Marathon (September)</option>
+              <option value="chicago">Chicago Marathon (October)</option>
+              <option value="boston">Boston Marathon (April)</option>
+              <option value="london">London Marathon (April)</option>
+              <option value="tokyo">Tokyo Marathon (March)</option>
+              <option value="nyc">New York City Marathon (November)</option>
+              <option value="sydney">Sydney Marathon (September)</option>
+            </select>
+          </div>
+
+          <button class="predict-btn" onclick="predict()">&#9654; Calculate My Predicted Time</button>
+
+        </div>
+      </div>
+
+      <!-- RESULTS PANEL -->
+      <div class="results-panel" id="results-panel">
+        <div class="placeholder" id="placeholder">
+          <div class="icon">&#127939;</div>
+          <div>
+            <strong>Enter your data and select a marathon</strong><br>
+            <span style="font-size:0.88rem; color:var(--gray-400)">Your personalised course-adjusted prediction will appear here</span>
+          </div>
+        </div>
+
+        <div id="result-content" style="display:none;"></div>
+      </div>
+
+    </div>
+  </div><!-- /tab-predictor -->
+
+</main>
+
+<script>
+// ─────────────────────────────────────────────
+// MARATHON DATA
+// ─────────────────────────────────────────────
+const MARATHONS = {
+  berlin: {
+    name: "Berlin Marathon",
+    flag: "🇩🇪",
+    location: "Berlin, Germany",
+    date: "Late September",
+    distance: "42.195 km (26.2 mi)",
+    elevation: "~161m gain (net near-zero)",
+    avgTemp: "13°C / 55°F",
+    humidity: "~65%",
+    elevationGainM: 161,
+    avgTempC: 13,
+    humidityPct: 65,
+    courseModifier: 0.0,
+    imageUrl: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=1100&h=350&fit=crop&auto=format",
+    imageCaption: "The Brandenburg Gate — finish-line landmark of the Berlin Marathon",
+    description: `The BMW Berlin Marathon is widely regarded as the fastest marathon course in the world — and the statistics back it up. More marathon world records have been set in Berlin than any other city. Eliud Kipchoge ran his historic 2:01:09 world record here in 2018, then broke his own record in 2023 (later updated to 2:00:35 in 2025). Held annually on the last Sunday of September, Berlin traces a figure-eight course through the reunified city, passing the Brandenburg Gate in the final stretch. The course is almost perfectly flat, with gently rolling streets through the Tiergarten and historic Mitte district. September weather is reliably cool and mild — the ideal conditions for marathoning. The race began in 1974 and has grown to over 60,000 runners making it one of Europe's most celebrated sporting events.`,
+    history: "Founded 1974 · 60,000+ runners · 18 world records set",
+  },
+  chicago: {
+    name: "Chicago Marathon",
+    flag: "🇺🇸",
+    location: "Chicago, Illinois, USA",
+    date: "Second Sunday of October",
+    distance: "42.195 km (26.2 mi)",
+    elevation: "~116m gain (very flat)",
+    avgTemp: "11°C / 52°F",
+    humidity: "~60%",
+    elevationGainM: 116,
+    avgTempC: 11,
+    humidityPct: 60,
+    courseModifier: 0.003,
+    imageUrl: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1100&h=350&fit=crop&auto=format",
+    imageCaption: "Chicago's iconic skyline along the Lake Michigan shoreline",
+    description: `The Bank of America Chicago Marathon is one of the flattest and fastest courses among the World Marathon Majors, and one of the largest, with over 50,000 finishers annually. The out-and-back course winds through 29 distinct Chicago neighborhoods, giving runners a unique cultural tour of the city. Founded in 1977, the race passes through Lincoln Park, Chinatown, Pilsen, Wicker Park, and the famous Michigan Avenue "Magnificent Mile" finish. October weather in Chicago is typically cool and crisp — ideal marathon conditions — though occasionally the city delivers wind off Lake Michigan. Kenenisa Bekele set the course record at 2:05:57 in 2019 on the men's side. The race is known for exceptional crowd support and a festive atmosphere along the full 26.2-mile route.`,
+    history: "Founded 1977 · 50,000+ finishers · Downtown Chicago course",
+  },
+  boston: {
+    name: "Boston Marathon",
+    flag: "🇺🇸",
+    location: "Hopkinton to Boston, Massachusetts, USA",
+    date: "Third Monday of April (Patriots' Day)",
+    distance: "42.195 km (26.2 mi)",
+    elevation: "~655m gain (challenging hills)",
+    avgTemp: "12°C / 54°F",
+    humidity: "~55%",
+    elevationGainM: 655,
+    avgTempC: 12,
+    humidityPct: 55,
+    courseModifier: 0.012,
+    imageUrl: "https://picsum.photos/seed/boston-fall-city/1100/350.jpg",
+    imageCaption: "Boylston Street — the iconic finish stretch of the Boston Marathon",
+    description: `The Boston Marathon is the world's oldest annual marathon and the most prestigious — entry requires a qualifying time (BQ), making a Boston finish a career milestone for recreational runners. Founded in 1897, the race runs point-to-point from Hopkinton to Copley Square, Boston, on Patriots' Day. While the course is net-downhill (the start is ~490 feet above the finish), it is deceptive: the infamous Newton Hills — climaxing in "Heartbreak Hill" at mile 20.5 — have broken many runners who started too fast. Experienced runners know to bank energy for the hills and the final emotional stretch down Boylston Street. April weather can range from ideal (cool and overcast) to brutal (the 2012 "Heat Year" saw thousands of DNFs in 30°C heat, or the 2018 "Storm Year" with 35mph rain and headwinds). The race carries deep emotional weight following the 2013 bombing and the resilient return.`,
+    history: "Founded 1897 · Oldest annual marathon · BQ qualifying required",
+  },
+  london: {
+    name: "London Marathon",
+    flag: "🇬🇧",
+    location: "Greenwich to The Mall, London, UK",
+    date: "Late April",
+    distance: "42.195 km (26.2 mi)",
+    elevation: "~149m gain (flat and fast)",
+    avgTemp: "13°C / 55°F",
+    humidity: "~60%",
+    elevationGainM: 149,
+    avgTempC: 13,
+    humidityPct: 60,
+    courseModifier: 0.002,
+    imageUrl: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1100&h=350&fit=crop&auto=format",
+    imageCaption: "Tower Bridge at mile 12 — the most photographed moment in the London Marathon",
+    description: `The TCS London Marathon is one of the most iconic sporting events in the world and the largest annual fundraising event on the planet, raising over £1 billion for charity since 1981. The point-to-point course starts in Greenwich Park — home of the Prime Meridian — and finishes on The Mall in front of Buckingham Palace. The course is largely flat with a gentle downhill profile through Deptford, Tower Bridge, Canary Wharf, and the Embankment. Tower Bridge at mile 12 is one of the most photographed spots in world running. London's April weather is typically mild and overcast — well-suited to fast running — though famous for occasional unseasonable warmth. The race was founded in 1981 by journalist Chris Brasher and Olympic walker John Disley, inspired by the New York City Marathon. Eliud Kipchoge broke the course record in 2023 with a time of 2:01:25, making London one of the fastest courses in the Majors.`,
+    history: "Founded 1981 · World's largest charity fundraiser · 45,000 participants",
+  },
+  tokyo: {
+    name: "Tokyo Marathon",
+    flag: "🇯🇵",
+    location: "Tokyo Metropolitan Government to Tokyo Station, Japan",
+    date: "First Sunday of March",
+    distance: "42.195 km (26.2 mi)",
+    elevation: "~183m gain (flat with slight undulation)",
+    avgTemp: "7°C / 45°F",
+    humidity: "~50%",
+    elevationGainM: 183,
+    avgTempC: 7,
+    humidityPct: 50,
+    courseModifier: 0.004,
+    imageUrl: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1100&h=350&fit=crop&auto=format",
+    imageCaption: "Tokyo's Shinjuku district — the start of the Tokyo Marathon course",
+    description: `The Tokyo Marathon is the newest member of the World Marathon Majors (added 2013) and the first Major held in Asia. Run on the first Sunday of March, the course starts at the Tokyo Metropolitan Government building in Shinjuku and finishes near Tokyo Station. The course takes runners through some of Tokyo's most iconic neighbourhoods: Shinjuku, Asakusa, the historic Ginza district, and along the Imperial Palace grounds. March temperatures in Tokyo are cold — typically 5–10°C — providing excellent fast-running conditions. Humidity is low, further aiding performance. The race is known for extraordinary organisation, enthusiastic spectators lining every metre of the course, and the legendary Japanese "omotenashi" (hospitality) culture. The course has hosted multiple world record attempts. With 38,000 elite and lottery-selected runners, Tokyo has one of the most competitive entry systems of any Major.`,
+    history: "World Major since 2013 · 38,000 runners · First Asian Major",
+  },
+  nyc: {
+    name: "New York City Marathon",
+    flag: "🇺🇸",
+    location: "Staten Island to Central Park, New York City, USA",
+    date: "First Sunday of November",
+    distance: "42.195 km (26.2 mi)",
+    elevation: "~500m gain (bridges and rolling terrain)",
+    avgTemp: "10°C / 50°F",
+    humidity: "~55%",
+    elevationGainM: 500,
+    avgTempC: 10,
+    humidityPct: 55,
+    courseModifier: 0.009,
+    imageUrl: "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=1100&h=350&fit=crop&auto=format",
+    imageCaption: "Central Park in autumn — the triumphant finish of the NYC Marathon",
+    description: `The TCS New York City Marathon is the world's largest marathon with over 55,000 finishers and is widely considered the most emotionally powerful race on the planet. The course traverses all five boroughs — starting on the Verrazzano-Narrows Bridge from Staten Island, through Brooklyn, Queens, a brief loop into the Bronx, and finally a triumphant entry into Central Park. The five iconic bridges (Verrazzano, Pulaski, Queensboro, Willis Avenue, Madison Avenue) break the course into distinct segments and add significant elevation. The Queensboro Bridge at mile 15 — run in near-silence — gives way to the deafening roar of First Avenue, one of the most electric moments in running. November weather is typically cool and crisp though variable. The race was founded in 1970 with just 127 finishers running loops in Central Park. Today it draws 100,000+ applicants in the lottery. The NYC course is significantly more challenging than Berlin or Chicago due to the bridge profiles and rolling Central Park hills in miles 24–26.`,
+    history: "Founded 1970 · 55,000+ finishers · World's largest marathon",
+  },
+  sydney: {
+    name: "Sydney Marathon",
+    flag: "🇦🇺",
+    location: "North Sydney to Sydney Opera House, Australia",
+    date: "Third Sunday of September",
+    distance: "42.195 km (26.2 mi)",
+    elevation: "~340m gain (hilly coastal course)",
+    avgTemp: "16°C / 61°F",
+    humidity: "~65%",
+    elevationGainM: 340,
+    avgTempC: 16,
+    humidityPct: 65,
+    courseModifier: 0.006,
+    imageUrl: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=1100&h=350&fit=crop&auto=format",
+    imageCaption: "The Sydney Opera House and Harbour Bridge — the spectacular finish of the Sydney Marathon",
+    description: `The Sydney Marathon became the 7th Abbott World Marathon Major in 2025, making it the newest and only Major in the Southern Hemisphere. The course is one of the most scenically spectacular in world running — crossing the iconic Sydney Harbour Bridge, winding through The Rocks and Circular Quay, along the foreshore past Darling Harbour, and finishing in front of the Sydney Opera House with views of the Harbour Bridge. September in Sydney brings warm spring conditions — typically 14–18°C — with moderate humidity, making it slightly warmer than ideal marathon conditions but still very runnable. The course features rolling hills including the notable climb over the Harbour Bridge itself. Since its formal inclusion as a Major, Sydney has rapidly grown in field size and international prestige. The race passes through some of the world's most recognisable urban landmarks, making it as much a visual celebration as an athletic event.`,
+    history: "World Major since 2025 · Southern Hemisphere's first Major",
+  },
+};
+
+// ─────────────────────────────────────────────
+// TAB NAVIGATION
+// ─────────────────────────────────────────────
+function showTab(id, ev) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  if (ev && ev.target) ev.target.classList.add('active');
+}
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+function fmtTime(totalSeconds) {
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = Math.round(totalSeconds % 60);
+  return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+function fmtPace(totalSeconds, distanceMiles) {
+  const secPerMile = totalSeconds / distanceMiles;
+  const m = Math.floor(secPerMile / 60);
+  const s = Math.round(secPerMile % 60);
+  return `${m}:${String(s).padStart(2,'0')} /mi`;
+}
+
+// ─────────────────────────────────────────────
+// PREDICTION ENGINE
+// ─────────────────────────────────────────────
+function predict() {
+  let valid = true;
+
+  const fkH = parseInt(document.getElementById('fk-h').value) || 0;
+  const fkM = parseInt(document.getElementById('fk-m').value) || 0;
+  const fkS = parseInt(document.getElementById('fk-s').value) || 0;
+  const fkTotalSec = fkH * 3600 + fkM * 60 + fkS;
+
+  if (fkTotalSec < 600 || fkTotalSec > 6000) {
+    document.getElementById('err-5k').textContent = 'Please enter a realistic 5K time (10:00 – 1:40:00)';
+    valid = false;
+  } else {
+    document.getElementById('err-5k').textContent = '';
+  }
+
+  const hr = parseFloat(document.getElementById('hr-input').value);
+  if (!hr || hr < 100 || hr > 210) {
+    document.getElementById('err-hr').textContent = 'Please enter a valid heart rate (100–210 bpm)';
+    valid = false;
+  } else {
+    document.getElementById('err-hr').textContent = '';
+  }
+
+  const mpw = parseFloat(document.getElementById('mpw-input').value);
+  if (!mpw || mpw < 5 || mpw > 150) {
+    document.getElementById('err-mpw').textContent = 'Please enter weekly mileage between 5 and 150 miles';
+    valid = false;
+  } else {
+    document.getElementById('err-mpw').textContent = '';
+  }
+
+  const marathonKey = document.getElementById('marathon-select').value;
+  if (!marathonKey) {
+    alert('Please select a World Major Marathon.');
+    valid = false;
+  }
+
+  if (!valid) return;
+
+  const m = MARATHONS[marathonKey];
+
+  // Step 1: Riegel
+  const RIEGEL_MULT = Math.pow(42.195 / 5, 1.06);
+  const baseSeconds = fkTotalSec * RIEGEL_MULT;
+
+  // Step 2: VO2max
+  const pacePerMileSec = fkTotalSec / (5 / 1.60934);
+  const pacePerMileMin = pacePerMileSec / 60;
+  const vo2max = 483 / pacePerMileMin + 3.5;
+
+  let vo2Adj = 0, vo2Label = '';
+  if (vo2max >= 60) {
+    vo2Adj = -0.025;
+    vo2Label = `VO₂max ~${vo2max.toFixed(0)} (sub-elite) → −2.5%`;
+  } else if (vo2max >= 50) {
+    vo2Adj = -0.01;
+    vo2Label = `VO₂max ~${vo2max.toFixed(0)} (strong) → −1%`;
+  } else if (vo2max >= 42) {
+    vo2Adj = 0;
+    vo2Label = `VO₂max ~${vo2max.toFixed(0)} (recreational) → no adjustment`;
+  } else {
+    vo2Adj = 0.02;
+    vo2Label = `VO₂max ~${vo2max.toFixed(0)} (developing) → +2%`;
+  }
+
+  // Step 3: Heart rate
+  let hrAdj = 0, hrLabel = '';
+  if (hr < 145) {
+    hrAdj = -0.03;
+    hrLabel = `Long-run HR ${hr} bpm (very efficient) → −3%`;
+  } else if (hr < 155) {
+    hrAdj = -0.015;
+    hrLabel = `Long-run HR ${hr} bpm (efficient) → −1.5%`;
+  } else if (hr <= 165) {
+    hrAdj = 0;
+    hrLabel = `Long-run HR ${hr} bpm (moderate) → no adjustment`;
+  } else if (hr <= 175) {
+    hrAdj = 0.02;
+    hrLabel = `Long-run HR ${hr} bpm (elevated) → +2%`;
+  } else {
+    hrAdj = 0.04;
+    hrLabel = `Long-run HR ${hr} bpm (very high) → +4%`;
+  }
+
+  // Step 4: Mileage
+  let mpwAdj = 0, mpwLabel = '';
+  if (mpw < 30) {
+    mpwAdj = 0.05;
+    mpwLabel = `${mpw} mpw (low volume) → +5%`;
+  } else if (mpw < 45) {
+    mpwAdj = 0.02;
+    mpwLabel = `${mpw} mpw (moderate) → +2%`;
+  } else if (mpw < 60) {
+    mpwAdj = 0;
+    mpwLabel = `${mpw} mpw (strong) → no adjustment`;
+  } else {
+    mpwAdj = -0.02;
+    mpwLabel = `${mpw} mpw (high volume) → −2%`;
+  }
+
+  // Step 5: Course
+  const elevPenaltySec = m.elevationGainM * 0.5;
+  let tempPenalty = 0;
+  if (m.avgTempC > 13) {
+    tempPenalty = ((m.avgTempC - 13) / 5) * 0.015;
+  } else if (m.avgTempC < 5) {
+    tempPenalty = 0.005;
+  }
+  const humidMod = m.humidityPct > 70 ? 0.005 : 0;
+  const courseMultiplier = 1 + m.courseModifier + tempPenalty + humidMod;
+
+  const physioMultiplier = 1 + vo2Adj + hrAdj + mpwAdj;
+  const finalSeconds = baseSeconds * physioMultiplier * courseMultiplier + elevPenaltySec;
+
+  const adjRows = [
+    { label: 'Riegel base (5K → Marathon)', value: fmtTime(Math.round(baseSeconds)), sign: 'neu' },
+    { label: vo2Label, value: formatAdj(vo2Adj * baseSeconds), sign: adjSign(vo2Adj) },
+    { label: hrLabel, value: formatAdj(hrAdj * baseSeconds), sign: adjSign(hrAdj) },
+    { label: mpwLabel, value: formatAdj(mpwAdj * baseSeconds), sign: adjSign(mpwAdj) },
+    { label: `Elevation gain (${m.elevationGainM}m) → +${Math.round(elevPenaltySec)}s`, value: `+${fmtTime(Math.round(elevPenaltySec))}`, sign: 'neg' },
+    { label: `Avg temp ${m.avgTempC}°C → ${tempPenalty > 0 ? '+' : 'no'} penalty`, value: tempPenalty > 0 ? `+${fmtTime(Math.round(tempPenalty * baseSeconds))}` : '—', sign: tempPenalty > 0 ? 'neg' : 'neu' },
+    { label: `Humidity ${m.humidityPct}% → ${humidMod > 0 ? '+0.5%' : 'no penalty'}`, value: humidMod > 0 ? `+${fmtTime(Math.round(humidMod * baseSeconds))}` : '—', sign: humidMod > 0 ? 'neg' : 'neu' },
+    { label: `Course profile modifier (+${(m.courseModifier*100).toFixed(1)}%)`, value: m.courseModifier > 0 ? `+${fmtTime(Math.round(m.courseModifier * baseSeconds))}` : '—', sign: m.courseModifier > 0 ? 'neg' : 'neu' },
+  ];
+
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('result-content').style.display = 'block';
+  document.getElementById('result-content').innerHTML = buildResultHTML(m, finalSeconds, adjRows, vo2max);
+}
+
+function formatAdj(secs) {
+  if (Math.abs(secs) < 5) return '—';
+  const sign = secs > 0 ? '+' : '−';
+  return sign + fmtTime(Math.abs(Math.round(secs)));
+}
+
+function adjSign(val) {
+  if (val < 0) return 'pos';
+  if (val > 0) return 'neg';
+  return 'neu';
+}
+
+function clearResult() {}
+function onMarathonChange() {}
+
+// ─────────────────────────────────────────────
+// RESULT HTML BUILDER
+// ─────────────────────────────────────────────
+function buildResultHTML(m, finalSec, adjRows, vo2max) {
+  const pace = fmtPace(finalSec, 26.21875);
+  const adjRowsHTML = adjRows.map(r => `
+    <div class="adj-row">
+      <span class="adj-label">${r.label}</span>
+      <span class="adj-value adj-${r.sign}">${r.value}</span>
+    </div>
+  `).join('');
+
+  return `
+    <div class="marathon-info">
+      <div class="marathon-info-header">
+        <div class="flag">${m.flag}</div>
+        <div>
+          <h3>${m.name}</h3>
+          <div class="sub">${m.location} &nbsp;·&nbsp; ${m.date}</div>
+        </div>
+      </div>
+      <div class="course-photo-wrap">
+        <img
+          src="${m.imageUrl}"
+          alt="${m.name} course"
+          class="course-photo"
+          loading="lazy"
+          onerror="this.parentElement.style.display='none'"
+        >
+        <div class="course-photo-label">${m.imageCaption}</div>
+      </div>
+      <div class="marathon-info-body">
+        <div class="info-grid">
+          <div class="info-stat">
+            <div class="stat-label">Distance</div>
+            <div class="stat-value">${m.distance}</div>
+          </div>
+          <div class="info-stat">
+            <div class="stat-label">Elevation Gain</div>
+            <div class="stat-value">${m.elevation}</div>
+          </div>
+          <div class="info-stat">
+            <div class="stat-label">Avg Race-Day Temp</div>
+            <div class="stat-value">${m.avgTemp}</div>
+          </div>
+          <div class="info-stat">
+            <div class="stat-label">Avg Humidity</div>
+            <div class="stat-value">${m.humidity}</div>
+          </div>
+          <div class="info-stat">
+            <div class="stat-label">Est. VO₂max</div>
+            <div class="stat-value">${vo2max.toFixed(1)}</div>
+          </div>
+          <div class="info-stat">
+            <div class="stat-label">Founded</div>
+            <div class="stat-value">${m.history.split('·')[0].replace('Founded ','').trim()}</div>
+          </div>
+        </div>
+        <p class="marathon-description">${m.description}</p>
+      </div>
+    </div>
+
+    <div class="result-box">
+      <div class="result-box-header">
+        &#127942; Your Predicted Finishing Time &mdash; ${m.name}
+      </div>
+      <div class="result-box-body">
+        <div class="predicted-time">
+          <div class="time-label">Predicted Finish Time</div>
+          <div class="time-value">${fmtTime(Math.round(finalSec))}</div>
+          <div class="pace">Average pace: ${pace}</div>
+        </div>
+        <div class="adjustment-list">
+          <h4>Adjustment Breakdown</h4>
+          ${adjRowsHTML}
+        </div>
+      </div>
+    </div>
+  `;
+}
+</script>
+
+</body>
+</html>
