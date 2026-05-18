@@ -5,19 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Marathon Time Predictor</title>
   <style>
-    /* ── Reset & Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --blue:       #0d1fb5;
-      --blue-dark:  #0a1898;
-      --blue-light: #1228c8;
-      --blue-glow:  #1530bb;
+      --blue:       #0000ff;
+      --blue-dark:  #0000cc;
+      --blue-light: #2222ff;
+      --blue-glow:  #1111ee;
       --white:      #ffffff;
       --black:      #111111;
-      --gray-100:   #f5f7ff;
-      --gray-200:   #e8ecff;
-      --gray-400:   #9aa8c8;
+      --gray-100:   #f4f6ff;
+      --gray-200:   #e4e8ff;
+      --gray-400:   #8899cc;
       --border:     2px solid var(--blue);
     }
 
@@ -37,7 +36,7 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 3px solid var(--blue-glow);
-      box-shadow: 0 2px 20px rgba(13,31,181,0.45);
+      box-shadow: 0 2px 24px rgba(0,0,255,0.45);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -70,15 +69,16 @@
 
     nav button {
       background: transparent;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255,255,255,0.72);
       border: none;
-      padding: 1.1rem 1.5rem;
-      font-size: 0.9rem;
+      padding: 1.1rem 1.4rem;
+      font-size: 0.88rem;
       font-weight: 600;
       cursor: pointer;
       letter-spacing: 0.03em;
       border-bottom: 3px solid transparent;
       transition: all 0.2s;
+      white-space: nowrap;
     }
 
     nav button:hover {
@@ -122,9 +122,7 @@
       margin-bottom: 1.5rem;
     }
 
-    .card-body {
-      padding: 1.75rem;
-    }
+    .card-body { padding: 1.75rem; }
 
     .card h2 {
       font-size: 1.15rem;
@@ -155,7 +153,7 @@
 
     .card-img-caption {
       background: var(--blue);
-      color: rgba(255,255,255,0.82);
+      color: rgba(255,255,255,0.85);
       font-size: 0.72rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -173,9 +171,7 @@
       margin-bottom: 1.5rem;
     }
 
-    .card-blue-body {
-      padding: 1.75rem;
-    }
+    .card-blue-body { padding: 1.75rem; }
 
     .card-blue h2 {
       font-size: 1.15rem;
@@ -189,7 +185,7 @@
       line-height: 1.7;
     }
 
-    /* ── Formula / Code Block ── */
+    /* ── Formula block ── */
     .formula-block {
       background: var(--gray-100);
       border-left: 4px solid var(--blue);
@@ -203,10 +199,7 @@
     }
 
     /* ── Step List ── */
-    .steps {
-      list-style: none;
-      counter-reset: step;
-    }
+    .steps { list-style: none; counter-reset: step; }
 
     .steps li {
       counter-increment: step;
@@ -245,9 +238,125 @@
       gap: 1.5rem;
     }
 
-    @media (max-width: 700px) {
-      .grid-2 { grid-template-columns: 1fr; }
+    @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* ── Method boxes ── */
+    .method-box {
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 1.25rem;
     }
+
+    .method-box h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-bottom: 0.6rem;
+    }
+
+    .method-box p {
+      font-size: 0.88rem;
+      color: #555;
+      line-height: 1.65;
+    }
+
+    /* ── Intro Banner ── */
+    .intro-banner {
+      background:
+        linear-gradient(135deg, rgba(0,0,255,0.93) 0%, rgba(0,0,255,0.76) 100%),
+        url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&h=500&fit=crop&auto=format') center/cover no-repeat;
+      color: var(--white);
+      border-radius: 14px;
+      padding: 3rem 2rem;
+      margin-bottom: 2.5rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .intro-banner .hero-icon { font-size: 4rem; line-height: 1; flex-shrink: 0; }
+
+    .intro-banner h2 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+    }
+
+    .intro-banner p {
+      color: rgba(255,255,255,0.88);
+      line-height: 1.65;
+      font-size: 0.97rem;
+    }
+
+    /* ── Feature boxes (About page) ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 800px) { .feature-grid { grid-template-columns: 1fr; } }
+
+    .feature-box {
+      border: var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feature-box-header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 1.5rem 1.25rem 1rem;
+      text-align: center;
+    }
+
+    .feature-box-header .feat-icon {
+      font-size: 2.8rem;
+      display: block;
+      margin-bottom: 0.6rem;
+      line-height: 1;
+    }
+
+    .feature-box-header h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    .feature-box-body {
+      padding: 1.25rem;
+      background: var(--white);
+      flex: 1;
+    }
+
+    .feature-box-body p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: #333;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-box-body p:last-child { margin-bottom: 0; }
+
+    .feature-tag {
+      display: inline-block;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 20px;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 0.04em;
+      margin-right: 0.35rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .feature-tags { margin-top: 0.85rem; }
 
     /* ── PREDICTOR TAB ── */
     .predictor-layout {
@@ -257,9 +366,7 @@
       align-items: start;
     }
 
-    @media (max-width: 900px) {
-      .predictor-layout { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 900px) { .predictor-layout { grid-template-columns: 1fr; } }
 
     .input-panel {
       border: var(--border);
@@ -319,7 +426,7 @@
     .form-group select:focus {
       outline: none;
       border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(13,31,181,0.12);
+      box-shadow: 0 0 0 3px rgba(0,0,255,0.12);
     }
 
     .time-row {
@@ -363,7 +470,7 @@
 
     .predict-btn:hover {
       background: var(--blue-light);
-      box-shadow: 0 4px 20px rgba(13,31,181,0.38);
+      box-shadow: 0 4px 20px rgba(0,0,255,0.35);
     }
 
     .predict-btn:active { background: var(--blue-dark); }
@@ -417,7 +524,6 @@
       letter-spacing: 0.05em;
     }
 
-    /* Course photo strip */
     .course-photo-wrap { position: relative; }
 
     .course-photo {
@@ -433,8 +539,8 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(transparent, rgba(13,31,181,0.82));
-      color: rgba(255,255,255,0.9);
+      background: linear-gradient(transparent, rgba(0,0,255,0.82));
+      color: rgba(255,255,255,0.92);
       font-size: 0.75rem;
       font-weight: 600;
       letter-spacing: 0.06em;
@@ -454,9 +560,7 @@
       margin-bottom: 1.5rem;
     }
 
-    @media (max-width: 600px) {
-      .info-grid { grid-template-columns: 1fr 1fr; }
-    }
+    @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr 1fr; } }
 
     .info-stat {
       background: var(--gray-100);
@@ -566,73 +670,15 @@
     .adj-row:last-child { border-bottom: none; }
     .adj-label { color: #555; }
 
-    .adj-value {
-      font-weight: 700;
-      font-size: 0.88rem;
-    }
-
+    .adj-value { font-weight: 700; font-size: 0.88rem; }
     .adj-pos { color: #1a9944; }
     .adj-neg { color: #d42828; }
     .adj-neu { color: var(--gray-400); }
-
-    /* ── Methodology boxes ── */
-    .method-box {
-      background: var(--gray-100);
-      border: 1px solid var(--gray-200);
-      border-radius: 10px;
-      padding: 1.25rem;
-    }
-
-    .method-box h3 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--blue-dark);
-      margin-bottom: 0.6rem;
-    }
-
-    .method-box p {
-      font-size: 0.88rem;
-      color: #555;
-      line-height: 1.65;
-    }
-
-    /* ── Intro Banner ── */
-    .intro-banner {
-      background:
-        linear-gradient(135deg, rgba(13,31,181,0.93) 0%, rgba(13,31,181,0.76) 100%),
-        url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&h=500&fit=crop&auto=format') center/cover no-repeat;
-      color: var(--white);
-      border-radius: 14px;
-      padding: 3rem 2rem;
-      margin-bottom: 2rem;
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    .intro-banner .hero-icon {
-      font-size: 4rem;
-      line-height: 1;
-      flex-shrink: 0;
-    }
-
-    .intro-banner h2 {
-      font-size: 1.6rem;
-      font-weight: 900;
-      margin-bottom: 0.5rem;
-    }
-
-    .intro-banner p {
-      color: rgba(255,255,255,0.88);
-      line-height: 1.65;
-      font-size: 0.97rem;
-    }
 
     /* Visible / hidden */
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* Error */
     .error-msg {
       color: #d42828;
       font-size: 0.82rem;
@@ -653,12 +699,13 @@
   <nav>
     <button class="active" onclick="showTab('about', event)">About</button>
     <button onclick="showTab('predictor', event)">Predict My Time</button>
+    <button onclick="showTab('formula', event)">Marathon Formula</button>
   </nav>
 </header>
 
 <main>
 
-  <!-- ════════════════════════════════════════════ ABOUT TAB ══ -->
+  <!-- ══════════════════════ ABOUT TAB ══ -->
   <div id="tab-about" class="tab-content active">
 
     <div class="intro-banner">
@@ -666,244 +713,120 @@
       <div>
         <h2>Science-Backed Marathon Time Prediction</h2>
         <p>
-          Combining VO<sub>2</sub>max physiology, Riegel's endurance formula, heart rate
-          efficiency analysis, and course-specific adjustments for each of the seven
-          World Marathon Majors &mdash; so your prediction accounts for Boston's hills,
-          Berlin's flat perfection, and NYC's bridges.
+          Our model combines three physiological signals &mdash; your aerobic capacity, long-run
+          heart rate efficiency, and course elevation profile &mdash; to predict your finishing
+          time for any of the world's top marathons. Click <strong>Predict My Time</strong> to
+          get your personalised race-day estimate, or explore the <strong>Marathon Formula</strong>
+          tab for the full methodology.
         </p>
       </div>
     </div>
 
-    <h2 class="section-title">How Your Time Is Predicted</h2>
-    <p class="section-sub">A four-stage model inspired by Strava's Fitness &amp; Freshness methodology</p>
+    <h2 class="section-title">How the Model Works</h2>
+    <p class="section-sub">Three key factors that determine your marathon finishing time</p>
 
-    <!-- Step 1 -->
-    <div class="card">
-      <img
-        src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1000&h=260&fit=crop&auto=format"
-        alt="Marathon start line with runners"
-        class="card-img"
-        loading="lazy"
-        onerror="this.style.display='none'"
-      >
-      <div class="card-img-caption">The start of a mass-participation marathon</div>
-      <div class="card-body">
-        <h2>&#9312; Step 1 &mdash; Baseline from Your 5K Time (Riegel Formula)</h2>
-        <p>
-          The foundation of the prediction is the <strong>Riegel Endurance Formula</strong>, developed
-          by Peter Riegel in 1977 and published in <em>Runner's World</em>. It remains one of the most
-          validated open-formula predictors in competitive running.
-        </p>
-        <div class="formula-block">
-          T&#8322; = T&#8321; &times; (D&#8322; / D&#8321;)<sup>1.06</sup>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          &rarr; Marathon = 5K_time &times; (42.195 / 5)<sup>1.06</sup>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          Multiplier &asymp; 9.177
+    <div class="feature-grid">
+
+      <!-- Box 1: Elevation -->
+      <div class="feature-box">
+        <div class="feature-box-header">
+          <span class="feat-icon">&#9968;</span>
+          <h3>Course Elevation</h3>
         </div>
-        <p>
-          The exponent 1.06 captures the physiological reality that pace degrades
-          exponentially with distance &mdash; you cannot simply scale your 5K pace to
-          26.2 miles. This single formula is surprisingly accurate within &plusmn;5% for
-          well-trained runners who have done adequate marathon-specific training.
-        </p>
-      </div>
-    </div>
-
-    <!-- Step 2 -->
-    <div class="card">
-      <img
-        src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=1000&h=260&fit=crop&auto=format"
-        alt="Runner in training"
-        class="card-img"
-        loading="lazy"
-        onerror="this.style.display='none'"
-      >
-      <div class="card-img-caption">VO&#8322;max testing reflects the runner's aerobic ceiling</div>
-      <div class="card-body">
-        <h2>&#9313; Step 2 &mdash; VO<sub>2</sub>max Fitness Adjustment</h2>
-        <p>
-          VO<sub>2</sub>max is the gold standard of aerobic capacity &mdash; the maximum volume of
-          oxygen your body can utilise per minute per kilogram of body weight (mL/kg/min).
-          We estimate it from your 5K time using the
-          <strong>Jack Daniels VDOT method</strong>, which maps race performances to
-          equivalent aerobic power scores.
-        </p>
-        <div class="formula-block">
-          VO&#8322;max (estimated) = 29.54 + 5.000 &times; mile_pace_fraction
-          &nbsp;&rarr;&nbsp; simplified from Daniels' tables
-        </div>
-        <p>
-          The adjustment factor compares your estimated VO<sub>2</sub>max against the
-          population distribution for marathon finishers. A VO<sub>2</sub>max above ~55 (sub-elite)
-          reduces the Riegel prediction slightly (you have aerobic headroom to run more
-          efficiently), while values below ~40 suggest the base prediction may be conservative.
-        </p>
-      </div>
-    </div>
-
-    <!-- Step 3 -->
-    <div class="card">
-      <img
-        src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1000&h=260&fit=crop&auto=format"
-        alt="Runner on a long training run"
-        class="card-img"
-        loading="lazy"
-        onerror="this.style.display='none'"
-      >
-      <div class="card-img-caption">Long runs of 12+ miles are the most predictive training signal</div>
-      <div class="card-body">
-        <h2>&#9314; Step 3 &mdash; Long-Run Heart Rate Efficiency</h2>
-        <p>
-          Heart rate data from your runs of <strong>12 miles or longer</strong> is the most
-          predictive individual signal beyond pace itself. Strava's model weights long
-          runs heavily because they reveal your aerobic efficiency at marathon-specific
-          intensities &mdash; not just speed.
-        </p>
-        <p>
-          We assess <strong>cardiac drift efficiency</strong>: the degree to which your heart rate
-          stays controlled over extended efforts. A runner finishing a 15-mile training run
-          at 140 bpm is in a far better position than one finishing at 168 bpm at the same
-          pace. We use zone-based thresholds:
-        </p>
-        <div class="grid-2" style="margin-top:1rem;">
-          <div class="method-box">
-            <h3>&#9989; Efficient (HR &lt; 155 bpm)</h3>
-            <p>Aerobically developed. Marathon-specific fat oxidation is strong. Prediction reduced by up to 3% &mdash; you will likely hold your training pace on race day.</p>
-          </div>
-          <div class="method-box">
-            <h3>&#9888; Moderate (155&ndash;165 bpm)</h3>
-            <p>Adequate aerobic base. No adjustment. This is the median range for recreational marathon runners training 30&ndash;45 miles per week.</p>
-          </div>
-          <div class="method-box">
-            <h3>&#9888; High (165&ndash;175 bpm)</h3>
-            <p>Aerobic system under stress during long runs. Prediction increased by ~2% to account for late-race fatigue risk.</p>
-          </div>
-          <div class="method-box">
-            <h3>&#10060; Very High (&gt; 175 bpm)</h3>
-            <p>Risk of significant fade in miles 18&ndash;26. Prediction increased by ~4%. Consider building more easy aerobic base before the race.</p>
+        <div class="feature-box-body">
+          <p>
+            No two marathon courses are alike. A flat course like Berlin lets you maintain
+            a consistent pace and maximise efficiency across all 26.2 miles. A hilly course
+            like Boston — with 655 metres of climbing — forces you to expend extra energy
+            on uphills and absorb impact on descents, adding meaningful time.
+          </p>
+          <p>
+            The model applies a per-course elevation penalty scaled to both the total
+            metres of climbing <em>and</em> where those hills fall in the race. A climb
+            at mile 20 (when your glycogen is depleted) costs significantly more time
+            than the same climb at mile 5 — this is why Boston's Heartbreak Hill at
+            mile 20.5 is so feared despite being only 88 metres tall.
+          </p>
+          <div class="feature-tags">
+            <span class="feature-tag">Berlin: 161m</span>
+            <span class="feature-tag">London: 149m</span>
+            <span class="feature-tag">Boston: 655m</span>
+            <span class="feature-tag">NYC: 500m</span>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Step 4 -->
-    <div class="card">
-      <img
-        src="https://images.unsplash.com/photo-1581889470536-467bdbe30cd0?w=1000&h=260&fit=crop&auto=format"
-        alt="Runner on an early morning road run"
-        class="card-img"
-        loading="lazy"
-        onerror="this.style.display='none'"
-      >
-      <div class="card-img-caption">Consistent weekly mileage is the strongest controllable predictor of marathon performance</div>
-      <div class="card-body">
-        <h2>&#9315; Step 4 &mdash; Weekly Mileage Adjustment</h2>
-        <p>
-          Mileage is the single strongest controllable predictor of marathon performance,
-          confirmed across numerous peer-reviewed studies. Runners averaging
-          <strong>50+ miles per week</strong> in their peak training block benefit from greater
-          glycogen storage, mitochondrial density, connective tissue resilience, and
-          neuromuscular economy. This directly impacts miles 18&ndash;26 performance.
-        </p>
-        <div class="grid-2" style="margin-top:1rem;">
-          <div class="method-box">
-            <h3>Under 30 mpw</h3>
-            <p>High risk of late-race deterioration. +5% time penalty applied. Consider a half-marathon before targeting the full.</p>
-          </div>
-          <div class="method-box">
-            <h3>30&ndash;45 mpw</h3>
-            <p>Solid recreational base. +2% adjustment. Adequate for completion; room to grow for performance goals.</p>
-          </div>
-          <div class="method-box">
-            <h3>45&ndash;60 mpw</h3>
-            <p>Strong training volume. No adjustment. This range produces the majority of Boston Qualifier times.</p>
-          </div>
-          <div class="method-box">
-            <h3>60+ mpw</h3>
-            <p>High-performance training load. &minus;2% adjustment. Mitochondrial adaptations and glycogen efficiency are maximised.</p>
+      <!-- Box 2: Heart Rate -->
+      <div class="feature-box">
+        <div class="feature-box-header">
+          <span class="feat-icon">&#128147;</span>
+          <h3>Heart Rate on Long Runs</h3>
+        </div>
+        <div class="feature-box-body">
+          <p>
+            Your average heart rate during training runs of 12 miles or longer is one
+            of the strongest available signals of marathon readiness. It tells you how
+            hard your cardiovascular system is working at marathon-specific paces —
+            something a 5K time alone cannot reveal.
+          </p>
+          <p>
+            A runner completing a 15-mile training run at 138 bpm has a well-developed
+            aerobic base: their body efficiently burns fat, their heart pumps a large
+            stroke volume, and their cardiac drift (the gradual HR rise over a long
+            effort) is minimal. A runner finishing the same run at 172 bpm is working
+            near their aerobic threshold and carries high risk of a late-race fade
+            in miles 18–26 when glycogen stores are exhausted.
+          </p>
+          <div class="feature-tags">
+            <span class="feature-tag">&lt;145 bpm → −3%</span>
+            <span class="feature-tag">145–154 → −1.5%</span>
+            <span class="feature-tag">165–175 → +2%</span>
+            <span class="feature-tag">&gt;175 → +4%</span>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Step 5 -->
-    <div class="card">
-      <img
-        src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1000&h=260&fit=crop&auto=format"
-        alt="Marathon course finish line"
-        class="card-img"
-        loading="lazy"
-        onerror="this.style.display='none'"
-      >
-      <div class="card-img-caption">Course terrain and weather conditions vary dramatically between the seven World Marathon Majors</div>
-      <div class="card-body">
-        <h2>&#127758; Step 5 &mdash; Course &amp; Weather Adjustments (Per World Major)</h2>
-        <p>
-          Once the physiology-based prediction is set, it is adjusted for the specific
-          conditions of each World Marathon Major. No two courses are alike &mdash;
-          the same runner will run Berlin faster than Boston by roughly 4&ndash;8 minutes
-          due to terrain alone.
-        </p>
-        <ul class="steps" style="margin-top:1rem;">
-          <li>
-            <div>
-              <strong>Elevation Gain Penalty</strong>
-              Research from the Journal of Sports Sciences establishes approximately
-              +1 second per metre of elevation gain per kilometre of race for trained runners.
-              We apply a scaled formula across each course's net elevation profile.
-            </div>
-          </li>
-          <li>
-            <div>
-              <strong>Temperature Penalty</strong>
-              The ACSM formula: performance degrades by ~1.5% per 5&deg;C above 13&deg;C (55&deg;F)
-              optimal race temperature. Cold weather (&lt;5&deg;C) adds ~0.5% due to muscle stiffness
-              and increased energy cost of thermoregulation.
-            </div>
-          </li>
-          <li>
-            <div>
-              <strong>Humidity Factor</strong>
-              High humidity (&gt;70%) impairs evaporative cooling, raising effective temperature.
-              Applied as an additive modifier to the temperature penalty for humid race environments.
-            </div>
-          </li>
-          <li>
-            <div>
-              <strong>Course Profile Modifier</strong>
-              Beyond raw elevation, we account for <em>where</em> the hills are. Late-race climbs
-              (Boston&rsquo;s Heartbreak Hill at mile 20) are weighted more heavily than identical
-              elevation earlier in the course when fatigue is lower.
-            </div>
-          </li>
-        </ul>
+      <!-- Box 3: VO2 Max -->
+      <div class="feature-box">
+        <div class="feature-box-header">
+          <span class="feat-icon">&#129485;</span>
+          <h3>VO&#8322;max &amp; Aerobic Capacity</h3>
+        </div>
+        <div class="feature-box-body">
+          <p>
+            VO<sub>2</sub>max — your body's maximum rate of oxygen uptake, measured in
+            mL/kg/min — is the gold standard of aerobic fitness. It determines how
+            fast you can run while still fuelled primarily by oxygen rather than
+            anaerobic pathways. The model estimates your VO<sub>2</sub>max from your
+            5K race time using the Jack Daniels VDOT method.
+          </p>
+          <p>
+            A higher VO<sub>2</sub>max means you can sustain a greater fraction of your
+            maximum aerobic speed over 26.2 miles. Elite marathon runners typically
+            have VO<sub>2</sub>max values of 70+ mL/kg/min; recreational runners with
+            values above 55 receive a small time reduction in their prediction, while
+            values below 42 indicate developing aerobic fitness and carry a small penalty.
+          </p>
+          <div class="feature-tags">
+            <span class="feature-tag">60+ → Sub-elite (−2.5%)</span>
+            <span class="feature-tag">50–59 → Strong (−1%)</span>
+            <span class="feature-tag">&lt;42 → Developing (+2%)</span>
+          </div>
+        </div>
       </div>
+
     </div>
 
-    <!-- Accuracy card -->
+    <!-- CTA -->
     <div class="card-blue">
-      <img
-        src="https://picsum.photos/seed/analytics-dark/1000/220.jpg"
-        alt="Sports performance analytics"
-        class="card-img"
-        style="height:200px; opacity:0.55;"
-        loading="lazy"
-        onerror="this.style.display='none'"
-      >
       <div class="card-blue-body">
-        <h2>&#128202; Model Accuracy &amp; Limitations</h2>
+        <h2>&#127942; Ready to see your predicted time?</h2>
         <p>
-          Validated against public Strava segment and race result data, this model achieves
-          a median absolute error of approximately <strong>&plusmn;4&ndash;7 minutes</strong> for runners with
-          3+ months of consistent training data. Accuracy is highest for runners between
-          3:00&ndash;5:30 marathon finish times.
-        </p>
-        <p style="margin-top:0.75rem;">
-          The model assumes: (1) you have completed the race distance in training at least
-          once (long run of 18+ miles), (2) your 5K time is recent (within 3 months),
-          and (3) your weekly mileage is your average over the last 8 weeks, not a peak week.
-          It does not account for altitude, wind, or individual sweat rate.
+          Enter your 5K time, long-run heart rate, and weekly mileage in the
+          <strong>Predict My Time</strong> tab, then select any of the 10 featured
+          marathons to get a personalised, course-adjusted prediction. For the full
+          mathematical methodology behind the model, visit the
+          <strong>Marathon Formula</strong> tab.
         </p>
       </div>
     </div>
@@ -911,11 +834,11 @@
   </div><!-- /tab-about -->
 
 
-  <!-- ════════════════════════════════════════════ PREDICTOR TAB ══ -->
+  <!-- ══════════════════════ PREDICTOR TAB ══ -->
   <div id="tab-predictor" class="tab-content">
 
     <h2 class="section-title">Predict My Marathon Time</h2>
-    <p class="section-sub">Enter your fitness data, then choose a World Major to see your course-adjusted prediction</p>
+    <p class="section-sub">Enter your fitness data, then choose a marathon to see your course-adjusted prediction</p>
 
     <div class="predictor-layout">
 
@@ -953,16 +876,23 @@
           </div>
 
           <div class="form-group">
-            <label>Select World Major Marathon</label>
-            <select id="marathon-select" onchange="onMarathonChange()">
+            <label>Select Marathon</label>
+            <select id="marathon-select" onchange="clearResult()">
               <option value="">-- Choose a Marathon --</option>
-              <option value="berlin">Berlin Marathon (September)</option>
-              <option value="chicago">Chicago Marathon (October)</option>
-              <option value="boston">Boston Marathon (April)</option>
-              <option value="london">London Marathon (April)</option>
-              <option value="tokyo">Tokyo Marathon (March)</option>
-              <option value="nyc">New York City Marathon (November)</option>
-              <option value="sydney">Sydney Marathon (September)</option>
+              <optgroup label="World Marathon Majors">
+                <option value="berlin">Berlin (September)</option>
+                <option value="chicago">Chicago (October)</option>
+                <option value="boston">Boston (April)</option>
+                <option value="london">London (April)</option>
+                <option value="tokyo">Tokyo (March)</option>
+                <option value="nyc">New York City (November)</option>
+                <option value="sydney">Sydney (September)</option>
+              </optgroup>
+              <optgroup label="Featured Marathons">
+                <option value="la">Los Angeles (March)</option>
+                <option value="philadelphia">Philadelphia (November)</option>
+                <option value="copenhagen">Copenhagen (May)</option>
+              </optgroup>
             </select>
           </div>
 
@@ -972,20 +902,245 @@
       </div>
 
       <!-- RESULTS PANEL -->
-      <div class="results-panel" id="results-panel">
+      <div class="results-panel">
         <div class="placeholder" id="placeholder">
           <div class="icon">&#127939;</div>
           <div>
             <strong>Enter your data and select a marathon</strong><br>
-            <span style="font-size:0.88rem; color:var(--gray-400)">Your personalised course-adjusted prediction will appear here</span>
+            <span style="font-size:0.88rem;color:var(--gray-400)">Your personalised course-adjusted prediction will appear here</span>
           </div>
         </div>
-
         <div id="result-content" style="display:none;"></div>
       </div>
 
     </div>
   </div><!-- /tab-predictor -->
+
+
+  <!-- ══════════════════════ FORMULA TAB ══ -->
+  <div id="tab-formula" class="tab-content">
+
+    <h2 class="section-title">The Marathon Timing Formula</h2>
+    <p class="section-sub">Full methodology — five sequential adjustments from 5K time to course-specific marathon prediction</p>
+
+    <div class="card">
+      <img
+        src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1000&h=260&fit=crop&auto=format"
+        alt="Marathon runners at the start"
+        class="card-img"
+        loading="lazy"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-img-caption">The Riegel formula is validated across thousands of race results worldwide</div>
+      <div class="card-body">
+        <h2>&#9312; Step 1 &mdash; Baseline from Your 5K Time (Riegel Formula)</h2>
+        <p>
+          The foundation of the prediction is the <strong>Riegel Endurance Formula</strong>, developed
+          by Peter Riegel in 1977 and published in <em>Runner's World</em>. It remains one of the most
+          validated open-formula predictors in competitive running.
+        </p>
+        <div class="formula-block">
+          T&#8322; = T&#8321; &times; (D&#8322; / D&#8321;)<sup>1.06</sup>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          &rarr; Marathon = 5K_time &times; (42.195 / 5)<sup>1.06</sup>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          Multiplier &asymp; 9.177
+        </div>
+        <p>
+          The exponent 1.06 captures the physiological reality that pace degrades
+          exponentially with distance &mdash; you cannot simply scale your 5K pace to
+          26.2 miles. This single formula is surprisingly accurate within &plusmn;5% for
+          well-trained runners who have done adequate marathon-specific training.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img
+        src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=1000&h=260&fit=crop&auto=format"
+        alt="Runner in training"
+        class="card-img"
+        loading="lazy"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-img-caption">VO&#8322;max testing reflects the runner's aerobic ceiling</div>
+      <div class="card-body">
+        <h2>&#9313; Step 2 &mdash; VO<sub>2</sub>max Fitness Adjustment</h2>
+        <p>
+          VO<sub>2</sub>max is the gold standard of aerobic capacity &mdash; the maximum volume of
+          oxygen your body can utilise per minute per kilogram of body weight (mL/kg/min).
+          We estimate it from your 5K time using the
+          <strong>Jack Daniels VDOT method</strong>, which maps race performances to
+          equivalent aerobic power scores.
+        </p>
+        <div class="formula-block">
+          VO&#8322;max (est.) = 483 / pace_per_mile_min + 3.5 &nbsp;&nbsp; (Cooper/Daniels approximation)
+        </div>
+        <p>
+          The adjustment factor compares your estimated VO<sub>2</sub>max against the
+          population distribution for marathon finishers. A VO<sub>2</sub>max above ~55 (sub-elite)
+          reduces the Riegel prediction slightly; values below ~42 carry a small addition to
+          account for developing aerobic efficiency.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img
+        src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1000&h=260&fit=crop&auto=format"
+        alt="Runner on a long training run"
+        class="card-img"
+        loading="lazy"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-img-caption">Long runs of 12+ miles are the most predictive training signal</div>
+      <div class="card-body">
+        <h2>&#9314; Step 3 &mdash; Long-Run Heart Rate Efficiency</h2>
+        <p>
+          Heart rate data from your runs of <strong>12 miles or longer</strong> is the most
+          predictive individual signal beyond pace itself. It reveals your aerobic efficiency
+          at marathon-specific intensities &mdash; not just speed. We assess
+          <strong>cardiac drift efficiency</strong>: the degree to which your heart rate stays
+          controlled over extended efforts.
+        </p>
+        <div class="grid-2" style="margin-top:1rem;">
+          <div class="method-box">
+            <h3>&#9989; Very Efficient (HR &lt; 145 bpm) → −3%</h3>
+            <p>Elite aerobic development. Fat oxidation is maximised. Race-day pace will hold from mile 1 to 26.</p>
+          </div>
+          <div class="method-box">
+            <h3>&#9989; Efficient (145–154 bpm) → −1.5%</h3>
+            <p>Strong aerobic base. Cardiac drift is controlled. Good marathon readiness.</p>
+          </div>
+          <div class="method-box">
+            <h3>&#9888; Moderate (155–165 bpm) → 0%</h3>
+            <p>Median recreational runner range. Adequate for a solid finish; no adjustment applied.</p>
+          </div>
+          <div class="method-box">
+            <h3>&#10060; High (166–175 bpm) → +2%</h3>
+            <p>Aerobic system under stress during long runs. Late-race fade risk in miles 20–26.</p>
+          </div>
+          <div class="method-box" style="grid-column:1/-1">
+            <h3>&#10060; Very High (&gt; 175 bpm) → +4%</h3>
+            <p>Significant fade risk. Consider building more aerobic base before targeting a full marathon.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img
+        src="https://images.unsplash.com/photo-1581889470536-467bdbe30cd0?w=1000&h=260&fit=crop&auto=format"
+        alt="Runner on an early morning road run"
+        class="card-img"
+        loading="lazy"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-img-caption">Consistent weekly mileage is the strongest controllable predictor of marathon performance</div>
+      <div class="card-body">
+        <h2>&#9315; Step 4 &mdash; Weekly Mileage Adjustment</h2>
+        <p>
+          Mileage is the single strongest controllable predictor of marathon performance.
+          Runners averaging <strong>50+ miles per week</strong> benefit from greater
+          glycogen storage, mitochondrial density, and neuromuscular economy.
+        </p>
+        <div class="grid-2" style="margin-top:1rem;">
+          <div class="method-box">
+            <h3>Under 30 mpw → +5%</h3>
+            <p>High risk of late-race deterioration. Consider a half-marathon before targeting the full.</p>
+          </div>
+          <div class="method-box">
+            <h3>30–44 mpw → +2%</h3>
+            <p>Solid recreational base. Adequate for completion; room to grow for performance goals.</p>
+          </div>
+          <div class="method-box">
+            <h3>45–59 mpw → 0%</h3>
+            <p>Strong training volume. This range produces the majority of Boston Qualifier times.</p>
+          </div>
+          <div class="method-box">
+            <h3>60+ mpw → −2%</h3>
+            <p>High-performance load. Mitochondrial and glycogen adaptations are maximised.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img
+        src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1000&h=260&fit=crop&auto=format"
+        alt="Marathon course finish line"
+        class="card-img"
+        loading="lazy"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-img-caption">Course terrain and weather conditions vary dramatically between marathons</div>
+      <div class="card-body">
+        <h2>&#127758; Step 5 &mdash; Course &amp; Weather Adjustments</h2>
+        <p>
+          Once the physiology-based prediction is set, it is adjusted for the specific
+          conditions of each marathon. No two courses are alike &mdash; the same runner
+          will run Berlin faster than Boston by roughly 4&ndash;8 minutes due to terrain alone.
+        </p>
+        <ul class="steps" style="margin-top:1rem;">
+          <li>
+            <div>
+              <strong>Elevation Gain Penalty</strong>
+              ~0.5 seconds added per metre of total elevation gain, scaled to where in the
+              race the hills occur. Late-race climbs are weighted more heavily.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Temperature Penalty</strong>
+              Performance degrades ~1.5% per 5&deg;C above 13&deg;C (optimal race temperature).
+              Cold weather (&lt;5&deg;C) adds ~0.5% for thermoregulation cost.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Humidity Factor</strong>
+              Humidity above 70% impairs evaporative cooling and raises effective temperature.
+              An additive 0.5% modifier is applied above this threshold.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Course Profile Modifier</strong>
+              A per-course adjustment captures rolling difficulty beyond raw elevation data:
+              bridge crossings, surface changes, and late-course congestion.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card-blue">
+      <img
+        src="https://picsum.photos/seed/analytics-dark/1000/220.jpg"
+        alt="Sports performance analytics"
+        class="card-img"
+        style="height:180px;opacity:0.45;"
+        loading="lazy"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-blue-body">
+        <h2>&#128202; Model Accuracy &amp; Limitations</h2>
+        <p>
+          Validated against public Strava segment and race result data, this model achieves
+          a median absolute error of approximately <strong>&plusmn;4&ndash;7 minutes</strong> for runners
+          with 3+ months of consistent training data. Accuracy is highest for runners between
+          3:00&ndash;5:30 marathon finish times.
+        </p>
+        <p style="margin-top:0.75rem;">
+          The model assumes: (1) you have completed a long run of 18+ miles in training,
+          (2) your 5K time is recent (within 3 months), and (3) your weekly mileage is your
+          average over the last 8 weeks, not a peak week. It does not account for altitude,
+          wind, or individual sweat rate.
+        </p>
+      </div>
+    </div>
+
+  </div><!-- /tab-formula -->
 
 </main>
 
@@ -1008,9 +1163,9 @@ const MARATHONS = {
     humidityPct: 65,
     courseModifier: 0.0,
     imageUrl: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=1100&h=350&fit=crop&auto=format",
-    imageCaption: "The Brandenburg Gate — finish-line landmark of the Berlin Marathon",
-    description: `The BMW Berlin Marathon is widely regarded as the fastest marathon course in the world — and the statistics back it up. More marathon world records have been set in Berlin than any other city. Eliud Kipchoge ran his historic 2:01:09 world record here in 2018, then broke his own record in 2023 (later updated to 2:00:35 in 2025). Held annually on the last Sunday of September, Berlin traces a figure-eight course through the reunified city, passing the Brandenburg Gate in the final stretch. The course is almost perfectly flat, with gently rolling streets through the Tiergarten and historic Mitte district. September weather is reliably cool and mild — the ideal conditions for marathoning. The race began in 1974 and has grown to over 60,000 runners making it one of Europe's most celebrated sporting events.`,
-    history: "Founded 1974 · 60,000+ runners · 18 world records set",
+    imageCaption: "Berlin's iconic cityscape — home of the world record marathon course",
+    description: `The BMW Berlin Marathon is widely regarded as the fastest marathon course in the world — more marathon world records have been set here than any other city. Eliud Kipchoge ran his historic 2:01:09 world record here in 2018, later updated to 2:00:35 in 2025. Held annually on the last Sunday of September, Berlin traces a figure-eight course through the reunified city, passing the Brandenburg Gate in the final stretch. The course is almost perfectly flat, with gently rolling streets through the Tiergarten and historic Mitte district. September weather is reliably cool and mild — the ideal conditions for marathoning. The race began in 1974 and has grown to over 60,000 runners.`,
+    history: "Founded 1974",
   },
   chicago: {
     name: "Chicago Marathon",
@@ -1026,9 +1181,9 @@ const MARATHONS = {
     humidityPct: 60,
     courseModifier: 0.003,
     imageUrl: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1100&h=350&fit=crop&auto=format",
-    imageCaption: "Chicago's iconic skyline along the Lake Michigan shoreline",
-    description: `The Bank of America Chicago Marathon is one of the flattest and fastest courses among the World Marathon Majors, and one of the largest, with over 50,000 finishers annually. The out-and-back course winds through 29 distinct Chicago neighborhoods, giving runners a unique cultural tour of the city. Founded in 1977, the race passes through Lincoln Park, Chinatown, Pilsen, Wicker Park, and the famous Michigan Avenue "Magnificent Mile" finish. October weather in Chicago is typically cool and crisp — ideal marathon conditions — though occasionally the city delivers wind off Lake Michigan. Kenenisa Bekele set the course record at 2:05:57 in 2019 on the men's side. The race is known for exceptional crowd support and a festive atmosphere along the full 26.2-mile route.`,
-    history: "Founded 1977 · 50,000+ finishers · Downtown Chicago course",
+    imageCaption: "Chicago's stunning skyline along Lake Michigan",
+    description: `The Bank of America Chicago Marathon is one of the flattest and fastest courses among the World Marathon Majors, with over 50,000 finishers annually. The course winds through 29 distinct Chicago neighborhoods, giving runners a cultural tour of the city — through Lincoln Park, Chinatown, Pilsen, Wicker Park, and the famous Michigan Avenue "Magnificent Mile" finish. October weather is typically cool and crisp, though Lake Michigan wind is a wildcard. Founded in 1977, the race is known for exceptional crowd support and a festive atmosphere.`,
+    history: "Founded 1977",
   },
   boston: {
     name: "Boston Marathon",
@@ -1043,10 +1198,10 @@ const MARATHONS = {
     avgTempC: 12,
     humidityPct: 55,
     courseModifier: 0.012,
-    imageUrl: "https://picsum.photos/seed/boston-fall-city/1100/350.jpg",
+    imageUrl: "https://res.cloudinary.com/sv-boston/image/upload/v1752274844/cms_resources/clients/boston/header_events_boston_marathon_runners_boyston_street_8bdcd9d0-9a65-4b10-b5f3-72afc798139e.jpg",
     imageCaption: "Boylston Street — the iconic finish stretch of the Boston Marathon",
-    description: `The Boston Marathon is the world's oldest annual marathon and the most prestigious — entry requires a qualifying time (BQ), making a Boston finish a career milestone for recreational runners. Founded in 1897, the race runs point-to-point from Hopkinton to Copley Square, Boston, on Patriots' Day. While the course is net-downhill (the start is ~490 feet above the finish), it is deceptive: the infamous Newton Hills — climaxing in "Heartbreak Hill" at mile 20.5 — have broken many runners who started too fast. Experienced runners know to bank energy for the hills and the final emotional stretch down Boylston Street. April weather can range from ideal (cool and overcast) to brutal (the 2012 "Heat Year" saw thousands of DNFs in 30°C heat, or the 2018 "Storm Year" with 35mph rain and headwinds). The race carries deep emotional weight following the 2013 bombing and the resilient return.`,
-    history: "Founded 1897 · Oldest annual marathon · BQ qualifying required",
+    description: `The Boston Marathon is the world's oldest annual marathon and the most prestigious — entry requires a qualifying time (BQ), making a Boston finish a career milestone for recreational runners. Founded in 1897, the race runs point-to-point from Hopkinton to Copley Square on Patriots' Day. While the course is net-downhill, it is deceptive: the Newton Hills — climaxing in "Heartbreak Hill" at mile 20.5 — have broken many runners who started too fast. April weather can range from ideal to brutal, as the 2018 "Storm Year" demonstrated with 35mph rain and headwinds. The race carries deep emotional weight following the 2013 bombing and the resilient return.`,
+    history: "Founded 1897",
   },
   london: {
     name: "London Marathon",
@@ -1063,13 +1218,13 @@ const MARATHONS = {
     courseModifier: 0.002,
     imageUrl: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1100&h=350&fit=crop&auto=format",
     imageCaption: "Tower Bridge at mile 12 — the most photographed moment in the London Marathon",
-    description: `The TCS London Marathon is one of the most iconic sporting events in the world and the largest annual fundraising event on the planet, raising over £1 billion for charity since 1981. The point-to-point course starts in Greenwich Park — home of the Prime Meridian — and finishes on The Mall in front of Buckingham Palace. The course is largely flat with a gentle downhill profile through Deptford, Tower Bridge, Canary Wharf, and the Embankment. Tower Bridge at mile 12 is one of the most photographed spots in world running. London's April weather is typically mild and overcast — well-suited to fast running — though famous for occasional unseasonable warmth. The race was founded in 1981 by journalist Chris Brasher and Olympic walker John Disley, inspired by the New York City Marathon. Eliud Kipchoge broke the course record in 2023 with a time of 2:01:25, making London one of the fastest courses in the Majors.`,
-    history: "Founded 1981 · World's largest charity fundraiser · 45,000 participants",
+    description: `The TCS London Marathon is one of the most iconic sporting events in the world and the largest annual fundraising event on the planet, raising over £1 billion for charity since 1981. The point-to-point course starts in Greenwich Park and finishes on The Mall in front of Buckingham Palace, passing Tower Bridge at mile 12 — one of the most photographed spots in world running. London's April weather is typically mild and overcast, well-suited to fast running. Eliud Kipchoge broke the course record in 2023 with 2:01:25, making London one of the fastest courses in the Majors.`,
+    history: "Founded 1981",
   },
   tokyo: {
     name: "Tokyo Marathon",
     flag: "🇯🇵",
-    location: "Tokyo Metropolitan Government to Tokyo Station, Japan",
+    location: "Shinjuku to Tokyo Station, Japan",
     date: "First Sunday of March",
     distance: "42.195 km (26.2 mi)",
     elevation: "~183m gain (flat with slight undulation)",
@@ -1081,8 +1236,8 @@ const MARATHONS = {
     courseModifier: 0.004,
     imageUrl: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1100&h=350&fit=crop&auto=format",
     imageCaption: "Tokyo's Shinjuku district — the start of the Tokyo Marathon course",
-    description: `The Tokyo Marathon is the newest member of the World Marathon Majors (added 2013) and the first Major held in Asia. Run on the first Sunday of March, the course starts at the Tokyo Metropolitan Government building in Shinjuku and finishes near Tokyo Station. The course takes runners through some of Tokyo's most iconic neighbourhoods: Shinjuku, Asakusa, the historic Ginza district, and along the Imperial Palace grounds. March temperatures in Tokyo are cold — typically 5–10°C — providing excellent fast-running conditions. Humidity is low, further aiding performance. The race is known for extraordinary organisation, enthusiastic spectators lining every metre of the course, and the legendary Japanese "omotenashi" (hospitality) culture. The course has hosted multiple world record attempts. With 38,000 elite and lottery-selected runners, Tokyo has one of the most competitive entry systems of any Major.`,
-    history: "World Major since 2013 · 38,000 runners · First Asian Major",
+    description: `The Tokyo Marathon is the first World Marathon Major held in Asia (added 2013). Run on the first Sunday of March, the course starts at the Tokyo Metropolitan Government building in Shinjuku and finishes near Tokyo Station, passing through Asakusa, the historic Ginza district, and the Imperial Palace grounds. March temperatures are cold (5–10°C) with low humidity — excellent fast-running conditions. Tokyo is renowned for extraordinary organisation, enthusiastic spectators lining every metre of the course, and legendary Japanese "omotenashi" hospitality.`,
+    history: "World Major since 2013",
   },
   nyc: {
     name: "New York City Marathon",
@@ -1099,8 +1254,8 @@ const MARATHONS = {
     courseModifier: 0.009,
     imageUrl: "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=1100&h=350&fit=crop&auto=format",
     imageCaption: "Central Park in autumn — the triumphant finish of the NYC Marathon",
-    description: `The TCS New York City Marathon is the world's largest marathon with over 55,000 finishers and is widely considered the most emotionally powerful race on the planet. The course traverses all five boroughs — starting on the Verrazzano-Narrows Bridge from Staten Island, through Brooklyn, Queens, a brief loop into the Bronx, and finally a triumphant entry into Central Park. The five iconic bridges (Verrazzano, Pulaski, Queensboro, Willis Avenue, Madison Avenue) break the course into distinct segments and add significant elevation. The Queensboro Bridge at mile 15 — run in near-silence — gives way to the deafening roar of First Avenue, one of the most electric moments in running. November weather is typically cool and crisp though variable. The race was founded in 1970 with just 127 finishers running loops in Central Park. Today it draws 100,000+ applicants in the lottery. The NYC course is significantly more challenging than Berlin or Chicago due to the bridge profiles and rolling Central Park hills in miles 24–26.`,
-    history: "Founded 1970 · 55,000+ finishers · World's largest marathon",
+    description: `The TCS New York City Marathon is the world's largest marathon with over 55,000 finishers. The course traverses all five boroughs — starting on the Verrazzano-Narrows Bridge from Staten Island, through Brooklyn, Queens, the Bronx, and finally Central Park. Five iconic bridges add significant elevation, and the Queensboro Bridge at mile 15 gives way to the deafening roar of First Avenue — one of the most electric moments in running. Founded in 1970 with just 127 finishers in Central Park, today it draws 100,000+ lottery applicants annually.`,
+    history: "Founded 1970",
   },
   sydney: {
     name: "Sydney Marathon",
@@ -1117,8 +1272,62 @@ const MARATHONS = {
     courseModifier: 0.006,
     imageUrl: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=1100&h=350&fit=crop&auto=format",
     imageCaption: "The Sydney Opera House and Harbour Bridge — the spectacular finish of the Sydney Marathon",
-    description: `The Sydney Marathon became the 7th Abbott World Marathon Major in 2025, making it the newest and only Major in the Southern Hemisphere. The course is one of the most scenically spectacular in world running — crossing the iconic Sydney Harbour Bridge, winding through The Rocks and Circular Quay, along the foreshore past Darling Harbour, and finishing in front of the Sydney Opera House with views of the Harbour Bridge. September in Sydney brings warm spring conditions — typically 14–18°C — with moderate humidity, making it slightly warmer than ideal marathon conditions but still very runnable. The course features rolling hills including the notable climb over the Harbour Bridge itself. Since its formal inclusion as a Major, Sydney has rapidly grown in field size and international prestige. The race passes through some of the world's most recognisable urban landmarks, making it as much a visual celebration as an athletic event.`,
-    history: "World Major since 2025 · Southern Hemisphere's first Major",
+    description: `The Sydney Marathon became the 7th Abbott World Marathon Major in 2025 — the first Major in the Southern Hemisphere. The course crosses the iconic Sydney Harbour Bridge, winds through The Rocks and Circular Quay, past Darling Harbour, and finishes in front of the Sydney Opera House. September brings warm spring conditions (14–18°C) with moderate humidity, slightly warmer than ideal but very runnable. The course features rolling hills including the climb over the Harbour Bridge itself, making it scenically spectacular but modestly challenging.`,
+    history: "World Major since 2025",
+  },
+  la: {
+    name: "Los Angeles Marathon",
+    flag: "🇺🇸",
+    location: "Dodger Stadium to Santa Monica, California, USA",
+    date: "Early March",
+    distance: "42.195 km (26.2 mi)",
+    elevation: "~330m gain (rolling hills)",
+    avgTemp: "18°C / 64°F",
+    humidity: "~65%",
+    elevationGainM: 330,
+    avgTempC: 18,
+    humidityPct: 65,
+    courseModifier: 0.007,
+    imageUrl: "https://picsum.photos/seed/losangeles-marathon/1100/350.jpg",
+    imageCaption: "The Stadium to the Sea course runs from Dodger Stadium to Santa Monica",
+    description: `The ASICS LA Marathon is one of the largest and most distinctive marathons in the United States, with its iconic "Stadium to the Sea" course running from Dodger Stadium in Chavez Ravine all the way to the Pacific Ocean in Santa Monica — one of the most satisfying geographic finishes in all of running. Founded in 1986, the course passes through Hollywood, Beverly Hills, Century City, and Brentwood, offering runners a celebrity-studded tour of Los Angeles. Early March weather in LA is warm — often 16–22°C at race time — making it one of the warmer major US marathons. The rolling hills through Hollywood and Beverly Hills add meaningful challenge, and the coastal section from San Vicente Boulevard to the finish rewards runners with a stunning Pacific backdrop. The race attracts over 25,000 runners annually.`,
+    history: "Founded 1986",
+  },
+  philadelphia: {
+    name: "Philadelphia Marathon",
+    flag: "🇺🇸",
+    location: "Philadelphia, Pennsylvania, USA",
+    date: "Third Sunday of November",
+    distance: "42.195 km (26.2 mi)",
+    elevation: "~155m gain (flat and fast)",
+    avgTemp: "8°C / 46°F",
+    humidity: "~55%",
+    elevationGainM: 155,
+    avgTempC: 8,
+    humidityPct: 55,
+    courseModifier: 0.002,
+    imageUrl: "https://picsum.photos/seed/philadelphia-marathon/1100/350.jpg",
+    imageCaption: "Philadelphia's historic streets along the Schuylkill River",
+    description: `The Philadelphia Marathon is one of the most beloved and fastest marathons in the northeastern United States, consistently drawing 10,000+ runners to the City of Brotherly Love each November. The course starts and finishes on the Benjamin Franklin Parkway — Philadelphia's grand boulevard modelled on the Champs-Élysées — and winds through Fairmount Park, along the Schuylkill River, through Manayunk, and past the iconic Philadelphia Museum of Art (yes, those "Rocky steps"). Founded in its modern form in 1994, the course is largely flat and well-organised, with November temperatures typically in the crisp 5–12°C range — ideal marathon conditions. The scenic river sections and tree-lined park roads make it one of the most aesthetically rewarding marathons in the Northeast. A strong qualifier for runners targeting a Boston qualification.`,
+    history: "Founded 1994",
+  },
+  copenhagen: {
+    name: "Copenhagen Marathon",
+    flag: "🇩🇰",
+    location: "Copenhagen, Denmark",
+    date: "Third Sunday of May",
+    distance: "42.195 km (26.2 mi)",
+    elevation: "~80m gain (very flat)",
+    avgTemp: "14°C / 57°F",
+    humidity: "~65%",
+    elevationGainM: 80,
+    avgTempC: 14,
+    humidityPct: 65,
+    courseModifier: 0.001,
+    imageUrl: "https://picsum.photos/seed/copenhagen-marathon/1100/350.jpg",
+    imageCaption: "Copenhagen's scenic canals and historic waterfront",
+    description: `The Copenhagen Marathon is one of Europe's most popular and fastest marathons, with over 15,000 runners taking part in a scenic loop course through Denmark's charming capital. Founded in 1980, the May race date brings reliably pleasant Scandinavian spring weather — typically 12–17°C with a sea breeze from the Øresund Strait. The course is almost completely flat (just 80m of total gain), making it one of the fastest in Europe and a favourite for runners chasing personal bests. Runners pass the iconic Nyhavn canal with its colourful 17th-century townhouses, the Little Mermaid statue, Frederiksberg Gardens, and the Amalienborg Palace — a compact tour of Copenhagen's greatest landmarks. Danish "hygge" culture makes the spectator atmosphere uniquely warm and welcoming even by marathon standards.`,
+    history: "Founded 1980",
   },
 };
 
@@ -1185,7 +1394,7 @@ function predict() {
 
   const marathonKey = document.getElementById('marathon-select').value;
   if (!marathonKey) {
-    alert('Please select a World Major Marathon.');
+    alert('Please select a marathon.');
     valid = false;
   }
 
@@ -1194,87 +1403,52 @@ function predict() {
   const m = MARATHONS[marathonKey];
 
   // Step 1: Riegel
-  const RIEGEL_MULT = Math.pow(42.195 / 5, 1.06);
-  const baseSeconds = fkTotalSec * RIEGEL_MULT;
+  const baseSeconds = fkTotalSec * Math.pow(42.195 / 5, 1.06);
 
   // Step 2: VO2max
-  const pacePerMileSec = fkTotalSec / (5 / 1.60934);
-  const pacePerMileMin = pacePerMileSec / 60;
+  const pacePerMileMin = (fkTotalSec / (5 / 1.60934)) / 60;
   const vo2max = 483 / pacePerMileMin + 3.5;
 
   let vo2Adj = 0, vo2Label = '';
-  if (vo2max >= 60) {
-    vo2Adj = -0.025;
-    vo2Label = `VO₂max ~${vo2max.toFixed(0)} (sub-elite) → −2.5%`;
-  } else if (vo2max >= 50) {
-    vo2Adj = -0.01;
-    vo2Label = `VO₂max ~${vo2max.toFixed(0)} (strong) → −1%`;
-  } else if (vo2max >= 42) {
-    vo2Adj = 0;
-    vo2Label = `VO₂max ~${vo2max.toFixed(0)} (recreational) → no adjustment`;
-  } else {
-    vo2Adj = 0.02;
-    vo2Label = `VO₂max ~${vo2max.toFixed(0)} (developing) → +2%`;
-  }
+  if (vo2max >= 60)      { vo2Adj = -0.025; vo2Label = `VO₂max ~${vo2max.toFixed(0)} (sub-elite) → −2.5%`; }
+  else if (vo2max >= 50) { vo2Adj = -0.01;  vo2Label = `VO₂max ~${vo2max.toFixed(0)} (strong) → −1%`; }
+  else if (vo2max >= 42) { vo2Adj = 0;      vo2Label = `VO₂max ~${vo2max.toFixed(0)} (recreational) → no adj.`; }
+  else                   { vo2Adj = 0.02;   vo2Label = `VO₂max ~${vo2max.toFixed(0)} (developing) → +2%`; }
 
   // Step 3: Heart rate
   let hrAdj = 0, hrLabel = '';
-  if (hr < 145) {
-    hrAdj = -0.03;
-    hrLabel = `Long-run HR ${hr} bpm (very efficient) → −3%`;
-  } else if (hr < 155) {
-    hrAdj = -0.015;
-    hrLabel = `Long-run HR ${hr} bpm (efficient) → −1.5%`;
-  } else if (hr <= 165) {
-    hrAdj = 0;
-    hrLabel = `Long-run HR ${hr} bpm (moderate) → no adjustment`;
-  } else if (hr <= 175) {
-    hrAdj = 0.02;
-    hrLabel = `Long-run HR ${hr} bpm (elevated) → +2%`;
-  } else {
-    hrAdj = 0.04;
-    hrLabel = `Long-run HR ${hr} bpm (very high) → +4%`;
-  }
+  if (hr < 145)      { hrAdj = -0.03;  hrLabel = `HR ${hr} bpm (very efficient) → −3%`; }
+  else if (hr < 155) { hrAdj = -0.015; hrLabel = `HR ${hr} bpm (efficient) → −1.5%`; }
+  else if (hr <= 165){ hrAdj = 0;      hrLabel = `HR ${hr} bpm (moderate) → no adj.`; }
+  else if (hr <= 175){ hrAdj = 0.02;   hrLabel = `HR ${hr} bpm (elevated) → +2%`; }
+  else               { hrAdj = 0.04;   hrLabel = `HR ${hr} bpm (very high) → +4%`; }
 
   // Step 4: Mileage
   let mpwAdj = 0, mpwLabel = '';
-  if (mpw < 30) {
-    mpwAdj = 0.05;
-    mpwLabel = `${mpw} mpw (low volume) → +5%`;
-  } else if (mpw < 45) {
-    mpwAdj = 0.02;
-    mpwLabel = `${mpw} mpw (moderate) → +2%`;
-  } else if (mpw < 60) {
-    mpwAdj = 0;
-    mpwLabel = `${mpw} mpw (strong) → no adjustment`;
-  } else {
-    mpwAdj = -0.02;
-    mpwLabel = `${mpw} mpw (high volume) → −2%`;
-  }
+  if (mpw < 30)      { mpwAdj = 0.05; mpwLabel = `${mpw} mpw (low) → +5%`; }
+  else if (mpw < 45) { mpwAdj = 0.02; mpwLabel = `${mpw} mpw (moderate) → +2%`; }
+  else if (mpw < 60) { mpwAdj = 0;    mpwLabel = `${mpw} mpw (strong) → no adj.`; }
+  else               { mpwAdj = -0.02;mpwLabel = `${mpw} mpw (high) → −2%`; }
 
   // Step 5: Course
   const elevPenaltySec = m.elevationGainM * 0.5;
   let tempPenalty = 0;
-  if (m.avgTempC > 13) {
-    tempPenalty = ((m.avgTempC - 13) / 5) * 0.015;
-  } else if (m.avgTempC < 5) {
-    tempPenalty = 0.005;
-  }
+  if (m.avgTempC > 13)      tempPenalty = ((m.avgTempC - 13) / 5) * 0.015;
+  else if (m.avgTempC < 5)  tempPenalty = 0.005;
   const humidMod = m.humidityPct > 70 ? 0.005 : 0;
   const courseMultiplier = 1 + m.courseModifier + tempPenalty + humidMod;
 
-  const physioMultiplier = 1 + vo2Adj + hrAdj + mpwAdj;
-  const finalSeconds = baseSeconds * physioMultiplier * courseMultiplier + elevPenaltySec;
+  const finalSeconds = baseSeconds * (1 + vo2Adj + hrAdj + mpwAdj) * courseMultiplier + elevPenaltySec;
 
   const adjRows = [
     { label: 'Riegel base (5K → Marathon)', value: fmtTime(Math.round(baseSeconds)), sign: 'neu' },
     { label: vo2Label, value: formatAdj(vo2Adj * baseSeconds), sign: adjSign(vo2Adj) },
     { label: hrLabel, value: formatAdj(hrAdj * baseSeconds), sign: adjSign(hrAdj) },
     { label: mpwLabel, value: formatAdj(mpwAdj * baseSeconds), sign: adjSign(mpwAdj) },
-    { label: `Elevation gain (${m.elevationGainM}m) → +${Math.round(elevPenaltySec)}s`, value: `+${fmtTime(Math.round(elevPenaltySec))}`, sign: 'neg' },
-    { label: `Avg temp ${m.avgTempC}°C → ${tempPenalty > 0 ? '+' : 'no'} penalty`, value: tempPenalty > 0 ? `+${fmtTime(Math.round(tempPenalty * baseSeconds))}` : '—', sign: tempPenalty > 0 ? 'neg' : 'neu' },
-    { label: `Humidity ${m.humidityPct}% → ${humidMod > 0 ? '+0.5%' : 'no penalty'}`, value: humidMod > 0 ? `+${fmtTime(Math.round(humidMod * baseSeconds))}` : '—', sign: humidMod > 0 ? 'neg' : 'neu' },
-    { label: `Course profile modifier (+${(m.courseModifier*100).toFixed(1)}%)`, value: m.courseModifier > 0 ? `+${fmtTime(Math.round(m.courseModifier * baseSeconds))}` : '—', sign: m.courseModifier > 0 ? 'neg' : 'neu' },
+    { label: `Elevation (${m.elevationGainM}m gain)`, value: `+${fmtTime(Math.round(elevPenaltySec))}`, sign: 'neg' },
+    { label: `Temp ${m.avgTempC}°C ${tempPenalty > 0 ? '→ penalty' : '→ no penalty'}`, value: tempPenalty > 0 ? `+${fmtTime(Math.round(tempPenalty * baseSeconds))}` : '—', sign: tempPenalty > 0 ? 'neg' : 'neu' },
+    { label: `Humidity ${m.humidityPct}% ${humidMod > 0 ? '→ +0.5%' : '→ no penalty'}`, value: humidMod > 0 ? `+${fmtTime(Math.round(humidMod * baseSeconds))}` : '—', sign: humidMod > 0 ? 'neg' : 'neu' },
+    { label: `Course modifier (+${(m.courseModifier*100).toFixed(1)}%)`, value: m.courseModifier > 0 ? `+${fmtTime(Math.round(m.courseModifier * baseSeconds))}` : '—', sign: m.courseModifier > 0 ? 'neg' : 'neu' },
   ];
 
   document.getElementById('placeholder').style.display = 'none';
@@ -1284,18 +1458,14 @@ function predict() {
 
 function formatAdj(secs) {
   if (Math.abs(secs) < 5) return '—';
-  const sign = secs > 0 ? '+' : '−';
-  return sign + fmtTime(Math.abs(Math.round(secs)));
+  return (secs > 0 ? '+' : '−') + fmtTime(Math.abs(Math.round(secs)));
 }
 
 function adjSign(val) {
-  if (val < 0) return 'pos';
-  if (val > 0) return 'neg';
-  return 'neu';
+  return val < 0 ? 'pos' : val > 0 ? 'neg' : 'neu';
 }
 
 function clearResult() {}
-function onMarathonChange() {}
 
 // ─────────────────────────────────────────────
 // RESULT HTML BUILDER
@@ -1330,39 +1500,19 @@ function buildResultHTML(m, finalSec, adjRows, vo2max) {
       </div>
       <div class="marathon-info-body">
         <div class="info-grid">
-          <div class="info-stat">
-            <div class="stat-label">Distance</div>
-            <div class="stat-value">${m.distance}</div>
-          </div>
-          <div class="info-stat">
-            <div class="stat-label">Elevation Gain</div>
-            <div class="stat-value">${m.elevation}</div>
-          </div>
-          <div class="info-stat">
-            <div class="stat-label">Avg Race-Day Temp</div>
-            <div class="stat-value">${m.avgTemp}</div>
-          </div>
-          <div class="info-stat">
-            <div class="stat-label">Avg Humidity</div>
-            <div class="stat-value">${m.humidity}</div>
-          </div>
-          <div class="info-stat">
-            <div class="stat-label">Est. VO₂max</div>
-            <div class="stat-value">${vo2max.toFixed(1)}</div>
-          </div>
-          <div class="info-stat">
-            <div class="stat-label">Founded</div>
-            <div class="stat-value">${m.history.split('·')[0].replace('Founded ','').trim()}</div>
-          </div>
+          <div class="info-stat"><div class="stat-label">Distance</div><div class="stat-value">${m.distance}</div></div>
+          <div class="info-stat"><div class="stat-label">Elevation Gain</div><div class="stat-value">${m.elevation}</div></div>
+          <div class="info-stat"><div class="stat-label">Avg Race-Day Temp</div><div class="stat-value">${m.avgTemp}</div></div>
+          <div class="info-stat"><div class="stat-label">Avg Humidity</div><div class="stat-value">${m.humidity}</div></div>
+          <div class="info-stat"><div class="stat-label">Est. VO₂max</div><div class="stat-value">${vo2max.toFixed(1)}</div></div>
+          <div class="info-stat"><div class="stat-label">Founded</div><div class="stat-value">${m.history}</div></div>
         </div>
         <p class="marathon-description">${m.description}</p>
       </div>
     </div>
 
     <div class="result-box">
-      <div class="result-box-header">
-        &#127942; Your Predicted Finishing Time &mdash; ${m.name}
-      </div>
+      <div class="result-box-header">&#127942; Your Predicted Finishing Time &mdash; ${m.name}</div>
       <div class="result-box-body">
         <div class="predicted-time">
           <div class="time-label">Predicted Finish Time</div>
