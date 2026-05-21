@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Marathon Time Predictor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -21,7 +22,7 @@
     }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'Playfair Display', Georgia, serif;
       background: var(--white);
       color: var(--black);
       min-height: 100vh;
@@ -690,7 +691,6 @@
 
 <header>
   <div class="header-brand">
-    <span class="logo">&#127939;</span>
     <div>
       <h1>Marathon Time Predictor</h1>
       <p>World Majors Edition</p>
@@ -709,7 +709,6 @@
   <div id="tab-about" class="tab-content active">
 
     <div class="intro-banner">
-      <div class="hero-icon">&#127939;</div>
       <div>
         <h2>Science-Backed Marathon Time Prediction</h2>
         <p>
@@ -730,7 +729,6 @@
       <!-- Box 1: Elevation -->
       <div class="feature-box">
         <div class="feature-box-header">
-          <span class="feat-icon">&#9968;</span>
           <h3>Course Elevation</h3>
         </div>
         <div class="feature-box-body">
@@ -759,7 +757,6 @@
       <!-- Box 2: Heart Rate -->
       <div class="feature-box">
         <div class="feature-box-header">
-          <span class="feat-icon">&#128147;</span>
           <h3>Heart Rate on Long Runs</h3>
         </div>
         <div class="feature-box-body">
@@ -789,7 +786,6 @@
       <!-- Box 3: VO2 Max -->
       <div class="feature-box">
         <div class="feature-box-header">
-          <span class="feat-icon">&#129485;</span>
           <h3>VO&#8322;max &amp; Aerobic Capacity</h3>
         </div>
         <div class="feature-box-body">
@@ -820,7 +816,7 @@
     <!-- CTA -->
     <div class="card-blue">
       <div class="card-blue-body">
-        <h2>&#127942; Ready to see your predicted time?</h2>
+        <h2>Ready to see your predicted time?</h2>
         <p>
           Enter your 5K time, long-run heart rate, and weekly mileage in the
           <strong>Predict My Time</strong> tab, then select any of the 10 featured
@@ -844,7 +840,7 @@
 
       <!-- INPUT PANEL -->
       <div class="input-panel">
-        <div class="input-panel-header">&#127939; Your Fitness Data</div>
+        <div class="input-panel-header">Your Fitness Data</div>
         <div class="input-panel-body">
 
           <div class="form-group">
@@ -892,11 +888,14 @@
                 <option value="la">Los Angeles (March)</option>
                 <option value="philadelphia">Philadelphia (November)</option>
                 <option value="copenhagen">Copenhagen (May)</option>
+                <option value="valencia">Valencia (December)</option>
+                <option value="paris">Paris (April)</option>
+                <option value="athens">Athens Classic (November)</option>
               </optgroup>
             </select>
           </div>
 
-          <button class="predict-btn" onclick="predict()">&#9654; Calculate My Predicted Time</button>
+          <button class="predict-btn" onclick="predict()">Calculate My Predicted Time</button>
 
         </div>
       </div>
@@ -904,7 +903,6 @@
       <!-- RESULTS PANEL -->
       <div class="results-panel">
         <div class="placeholder" id="placeholder">
-          <div class="icon">&#127939;</div>
           <div>
             <strong>Enter your data and select a marathon</strong><br>
             <span style="font-size:0.88rem;color:var(--gray-400)">Your personalised course-adjusted prediction will appear here</span>
@@ -933,7 +931,7 @@
       >
       <div class="card-img-caption">The Riegel formula is validated across thousands of race results worldwide</div>
       <div class="card-body">
-        <h2>&#9312; Step 1 &mdash; Baseline from Your 5K Time (Riegel Formula)</h2>
+        <h2>Step 1 &mdash; Baseline from Your 5K Time (Riegel Formula)</h2>
         <p>
           The foundation of the prediction is the <strong>Riegel Endurance Formula</strong>, developed
           by Peter Riegel in 1977 and published in <em>Runner's World</em>. It remains one of the most
@@ -965,7 +963,7 @@
       >
       <div class="card-img-caption">VO&#8322;max testing reflects the runner's aerobic ceiling</div>
       <div class="card-body">
-        <h2>&#9313; Step 2 &mdash; VO<sub>2</sub>max Fitness Adjustment</h2>
+        <h2>Step 2 &mdash; VO<sub>2</sub>max Fitness Adjustment</h2>
         <p>
           VO<sub>2</sub>max is the gold standard of aerobic capacity &mdash; the maximum volume of
           oxygen your body can utilise per minute per kilogram of body weight (mL/kg/min).
@@ -995,7 +993,7 @@
       >
       <div class="card-img-caption">Long runs of 12+ miles are the most predictive training signal</div>
       <div class="card-body">
-        <h2>&#9314; Step 3 &mdash; Long-Run Heart Rate Efficiency</h2>
+        <h2>Step 3 &mdash; Long-Run Heart Rate Efficiency</h2>
         <p>
           Heart rate data from your runs of <strong>12 miles or longer</strong> is the most
           predictive individual signal beyond pace itself. It reveals your aerobic efficiency
@@ -1005,23 +1003,23 @@
         </p>
         <div class="grid-2" style="margin-top:1rem;">
           <div class="method-box">
-            <h3>&#9989; Very Efficient (HR &lt; 145 bpm) → −3%</h3>
+            <h3>Very Efficient (HR &lt; 145 bpm) → −3%</h3>
             <p>Elite aerobic development. Fat oxidation is maximised. Race-day pace will hold from mile 1 to 26.</p>
           </div>
           <div class="method-box">
-            <h3>&#9989; Efficient (145–154 bpm) → −1.5%</h3>
+            <h3>Efficient (145–154 bpm) → −1.5%</h3>
             <p>Strong aerobic base. Cardiac drift is controlled. Good marathon readiness.</p>
           </div>
           <div class="method-box">
-            <h3>&#9888; Moderate (155–165 bpm) → 0%</h3>
+            <h3>Moderate (155–165 bpm) → 0%</h3>
             <p>Median recreational runner range. Adequate for a solid finish; no adjustment applied.</p>
           </div>
           <div class="method-box">
-            <h3>&#10060; High (166–175 bpm) → +2%</h3>
+            <h3>High (166–175 bpm) → +2%</h3>
             <p>Aerobic system under stress during long runs. Late-race fade risk in miles 20–26.</p>
           </div>
           <div class="method-box" style="grid-column:1/-1">
-            <h3>&#10060; Very High (&gt; 175 bpm) → +4%</h3>
+            <h3>Very High (&gt; 175 bpm) → +4%</h3>
             <p>Significant fade risk. Consider building more aerobic base before targeting a full marathon.</p>
           </div>
         </div>
@@ -1038,7 +1036,7 @@
       >
       <div class="card-img-caption">Consistent weekly mileage is the strongest controllable predictor of marathon performance</div>
       <div class="card-body">
-        <h2>&#9315; Step 4 &mdash; Weekly Mileage Adjustment</h2>
+        <h2>Step 4 &mdash; Weekly Mileage Adjustment</h2>
         <p>
           Mileage is the single strongest controllable predictor of marathon performance.
           Runners averaging <strong>50+ miles per week</strong> benefit from greater
@@ -1075,7 +1073,7 @@
       >
       <div class="card-img-caption">Course terrain and weather conditions vary dramatically between marathons</div>
       <div class="card-body">
-        <h2>&#127758; Step 5 &mdash; Course &amp; Weather Adjustments</h2>
+        <h2>Step 5 &mdash; Course &amp; Weather Adjustments</h2>
         <p>
           Once the physiology-based prediction is set, it is adjusted for the specific
           conditions of each marathon. No two courses are alike &mdash; the same runner
@@ -1124,7 +1122,7 @@
         onerror="this.style.display='none'"
       >
       <div class="card-blue-body">
-        <h2>&#128202; Model Accuracy &amp; Limitations</h2>
+        <h2>Model Accuracy &amp; Limitations</h2>
         <p>
           Validated against public Strava segment and race result data, this model achieves
           a median absolute error of approximately <strong>&plusmn;4&ndash;7 minutes</strong> for runners
@@ -1151,7 +1149,6 @@
 const MARATHONS = {
   berlin: {
     name: "Berlin Marathon",
-    flag: "🇩🇪",
     location: "Berlin, Germany",
     date: "Late September",
     distance: "42.195 km (26.2 mi)",
@@ -1169,7 +1166,6 @@ const MARATHONS = {
   },
   chicago: {
     name: "Chicago Marathon",
-    flag: "🇺🇸",
     location: "Chicago, Illinois, USA",
     date: "Second Sunday of October",
     distance: "42.195 km (26.2 mi)",
@@ -1187,7 +1183,6 @@ const MARATHONS = {
   },
   boston: {
     name: "Boston Marathon",
-    flag: "🇺🇸",
     location: "Hopkinton to Boston, Massachusetts, USA",
     date: "Third Monday of April (Patriots' Day)",
     distance: "42.195 km (26.2 mi)",
@@ -1205,7 +1200,6 @@ const MARATHONS = {
   },
   london: {
     name: "London Marathon",
-    flag: "🇬🇧",
     location: "Greenwich to The Mall, London, UK",
     date: "Late April",
     distance: "42.195 km (26.2 mi)",
@@ -1223,7 +1217,6 @@ const MARATHONS = {
   },
   tokyo: {
     name: "Tokyo Marathon",
-    flag: "🇯🇵",
     location: "Shinjuku to Tokyo Station, Japan",
     date: "First Sunday of March",
     distance: "42.195 km (26.2 mi)",
@@ -1241,7 +1234,6 @@ const MARATHONS = {
   },
   nyc: {
     name: "New York City Marathon",
-    flag: "🇺🇸",
     location: "Staten Island to Central Park, New York City, USA",
     date: "First Sunday of November",
     distance: "42.195 km (26.2 mi)",
@@ -1259,7 +1251,6 @@ const MARATHONS = {
   },
   sydney: {
     name: "Sydney Marathon",
-    flag: "🇦🇺",
     location: "North Sydney to Sydney Opera House, Australia",
     date: "Third Sunday of September",
     distance: "42.195 km (26.2 mi)",
@@ -1277,7 +1268,6 @@ const MARATHONS = {
   },
   la: {
     name: "Los Angeles Marathon",
-    flag: "🇺🇸",
     location: "Dodger Stadium to Santa Monica, California, USA",
     date: "Early March",
     distance: "42.195 km (26.2 mi)",
@@ -1288,14 +1278,13 @@ const MARATHONS = {
     avgTempC: 18,
     humidityPct: 65,
     courseModifier: 0.007,
-    imageUrl: "https://picsum.photos/seed/losangeles-marathon/1100/350.jpg",
+    imageUrl: "https://cdn.sanity.io/images/nxpteyfv/goguides/47049f56e8b4255bfe90eaaa1b01d992aef3ad6a-1600x1066.jpg",
     imageCaption: "The Stadium to the Sea course runs from Dodger Stadium to Santa Monica",
     description: `The ASICS LA Marathon is one of the largest and most distinctive marathons in the United States, with its iconic "Stadium to the Sea" course running from Dodger Stadium in Chavez Ravine all the way to the Pacific Ocean in Santa Monica — one of the most satisfying geographic finishes in all of running. Founded in 1986, the course passes through Hollywood, Beverly Hills, Century City, and Brentwood, offering runners a celebrity-studded tour of Los Angeles. Early March weather in LA is warm — often 16–22°C at race time — making it one of the warmer major US marathons. The rolling hills through Hollywood and Beverly Hills add meaningful challenge, and the coastal section from San Vicente Boulevard to the finish rewards runners with a stunning Pacific backdrop. The race attracts over 25,000 runners annually.`,
     history: "Founded 1986",
   },
   philadelphia: {
     name: "Philadelphia Marathon",
-    flag: "🇺🇸",
     location: "Philadelphia, Pennsylvania, USA",
     date: "Third Sunday of November",
     distance: "42.195 km (26.2 mi)",
@@ -1306,14 +1295,13 @@ const MARATHONS = {
     avgTempC: 8,
     humidityPct: 55,
     courseModifier: 0.002,
-    imageUrl: "https://picsum.photos/seed/philadelphia-marathon/1100/350.jpg",
+    imageUrl: "https://dgtzuqphqg23d.cloudfront.net/wB7guA9Bs_DOwVAD2PwTlZS3g0_L22-8ySlpnLytlFA-1536x2048.jpg",
     imageCaption: "Philadelphia's historic streets along the Schuylkill River",
     description: `The Philadelphia Marathon is one of the most beloved and fastest marathons in the northeastern United States, consistently drawing 10,000+ runners to the City of Brotherly Love each November. The course starts and finishes on the Benjamin Franklin Parkway — Philadelphia's grand boulevard modelled on the Champs-Élysées — and winds through Fairmount Park, along the Schuylkill River, through Manayunk, and past the iconic Philadelphia Museum of Art (yes, those "Rocky steps"). Founded in its modern form in 1994, the course is largely flat and well-organised, with November temperatures typically in the crisp 5–12°C range — ideal marathon conditions. The scenic river sections and tree-lined park roads make it one of the most aesthetically rewarding marathons in the Northeast. A strong qualifier for runners targeting a Boston qualification.`,
     history: "Founded 1994",
   },
   copenhagen: {
     name: "Copenhagen Marathon",
-    flag: "🇩🇰",
     location: "Copenhagen, Denmark",
     date: "Third Sunday of May",
     distance: "42.195 km (26.2 mi)",
@@ -1324,10 +1312,61 @@ const MARATHONS = {
     avgTempC: 14,
     humidityPct: 65,
     courseModifier: 0.001,
-    imageUrl: "https://picsum.photos/seed/copenhagen-marathon/1100/350.jpg",
+    imageUrl: "https://northabroad.com/wp-content/uploads/copenhagen-PITA4852-1.jpg",
     imageCaption: "Copenhagen's scenic canals and historic waterfront",
     description: `The Copenhagen Marathon is one of Europe's most popular and fastest marathons, with over 15,000 runners taking part in a scenic loop course through Denmark's charming capital. Founded in 1980, the May race date brings reliably pleasant Scandinavian spring weather — typically 12–17°C with a sea breeze from the Øresund Strait. The course is almost completely flat (just 80m of total gain), making it one of the fastest in Europe and a favourite for runners chasing personal bests. Runners pass the iconic Nyhavn canal with its colourful 17th-century townhouses, the Little Mermaid statue, Frederiksberg Gardens, and the Amalienborg Palace — a compact tour of Copenhagen's greatest landmarks. Danish "hygge" culture makes the spectator atmosphere uniquely warm and welcoming even by marathon standards.`,
     history: "Founded 1980",
+  },
+  valencia: {
+    name: "Valencia Marathon",
+    location: "Valencia, Spain",
+    date: "First Sunday of December",
+    distance: "42.195 km (26.2 mi)",
+    elevation: "~142m gain (extremely flat)",
+    avgTemp: "13°C / 55°F",
+    humidity: "~65%",
+    elevationGainM: 142,
+    avgTempC: 13,
+    humidityPct: 65,
+    courseModifier: 0.001,
+    imageUrl: "https://velvetescape.com/wp-content/uploads/2012/06/IMG_1056-1-1280x920.jpeg",
+    imageCaption: "Valencia's stunning City of Arts and Sciences — on the marathon course",
+    description: `The Trinidad Alfonso EDP Valencia Marathon is one of Europe's fastest and most rapidly growing races, having surged in prestige to become a top-tier destination for runners chasing personal bests and world records. Held on the first Sunday of December, the course is exceptionally flat — just 142 metres of total gain — and benefits from Valencia's mild Mediterranean December climate, typically 10–15°C with low humidity and virtually no wind, creating near-ideal racing conditions. The course takes runners through the heart of Valencia: past the historic Old City, along the former Turia river bed (now a stunning 9-kilometre park), and through the futuristic City of Arts and Sciences designed by Santiago Calatrava, arguably the most architecturally dramatic stretch of any major marathon. Kenenisa Bekele set a then-world record 2:01:41 here in 2019. The finish line in front of the Ciudad de las Artes y las Ciencias is consistently ranked among the most spectacular in the world.`,
+    history: "Founded 1981",
+  },
+  paris: {
+    name: "Paris Marathon",
+    location: "Paris, France",
+    date: "Second Sunday of April",
+    distance: "42.195 km (26.2 mi)",
+    elevation: "~255m gain (rolling with late hills)",
+    avgTemp: "12°C / 54°F",
+    humidity: "~65%",
+    elevationGainM: 255,
+    avgTempC: 12,
+    humidityPct: 65,
+    courseModifier: 0.005,
+    imageUrl: "https://phetkdqogbjrovlpedmz.supabase.co/storage/v1/object/public/images/news/95e04e63-c7a0-4281-bd3c-2366b09487e1/desktop.webp",
+    imageCaption: "The Champs-Elysees and Arc de Triomphe — the iconic start of the Paris Marathon",
+    description: `The Schneider Electric Paris Marathon is one of the most beautiful and popular marathons in the world, consistently attracting over 55,000 runners from 150+ countries to make it one of the largest mass-participation races on the planet. Held on the second Sunday of April, the point-to-point course begins on the Champs-Élysées in the shadow of the Arc de Triomphe — one of the most dramatic start lines in sport — and winds through the heart of the French capital before finishing on Avenue Foch near the Bois de Boulogne. Runners pass the Louvre, the Place de la Bastille, the Château de Vincennes, the banks of the Seine, and the Eiffel Tower, making it as much a grand tour of Paris as an athletic event. The course is moderately challenging with rolling terrain and a significant climb in the final Bois de Boulogne section (miles 23–26), which has undone many runners who went out too fast on the flat early miles. Founded in 1976, Paris has grown into one of Europe's most prestigious marathons.`,
+    history: "Founded 1976",
+  },
+  athens: {
+    name: "Athens Classic Marathon",
+    location: "Marathon to Athens, Greece",
+    date: "Second Sunday of November",
+    distance: "42.195 km (26.2 mi)",
+    elevation: "~370m gain (challenging hills)",
+    avgTemp: "17°C / 63°F",
+    humidity: "~60%",
+    elevationGainM: 370,
+    avgTempC: 17,
+    humidityPct: 60,
+    courseModifier: 0.008,
+    imageUrl: "https://images.contentstack.io/v3/assets/blt06f605a34f1194ff/blt6524f4ecc6e943d6/6825fc58e83201391f25dd5f/iStock-2158222030-MOBILE-HEADER.jpg",
+    imageCaption: "The Panathenaic Stadium — the ancient finish line of the Athens Classic Marathon",
+    description: `The Athens Classic Marathon is the most historically significant marathon in the world — it is the original. The race retraces the legendary route run by the Greek soldier Pheidippides in 490 BC, who is said to have carried the news of the Greek victory at the Battle of Marathon to Athens, announcing "We have won!" before collapsing. Held on the second Sunday of November, the authentic point-to-point course runs from the town of Marathon to the Panathenaic Stadium in central Athens — the same marble stadium that hosted the first modern Olympic Games in 1896, where the marathon distance was first run as a competitive event. The course is demanding: a long, relentless climb from sea level to 185 metres in the first 30 kilometres, before a steep downhill into Athens that punishes the quadriceps of runners who have not trained for it. November temperatures in Athens (16–20°C) are warmer than ideal for fast times. This is a race run for history, not for personal bests — finishing in the marble stadium under floodlights, surrounded by 2,500 years of athletic tradition, is a once-in-a-lifetime experience.`,
+    history: "Founded 1896",
   },
 };
 
@@ -1482,7 +1521,6 @@ function buildResultHTML(m, finalSec, adjRows, vo2max) {
   return `
     <div class="marathon-info">
       <div class="marathon-info-header">
-        <div class="flag">${m.flag}</div>
         <div>
           <h3>${m.name}</h3>
           <div class="sub">${m.location} &nbsp;·&nbsp; ${m.date}</div>
@@ -1512,7 +1550,7 @@ function buildResultHTML(m, finalSec, adjRows, vo2max) {
     </div>
 
     <div class="result-box">
-      <div class="result-box-header">&#127942; Your Predicted Finishing Time &mdash; ${m.name}</div>
+      <div class="result-box-header">Your Predicted Finishing Time &mdash; ${m.name}</div>
       <div class="result-box-body">
         <div class="predicted-time">
           <div class="time-label">Predicted Finish Time</div>
